@@ -1,0 +1,389 @@
+/* ============================================
+   DASHBOARD PAGE STYLES
+   Uses variables from index.css
+   ============================================ */
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+
+.dashboard {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--page-padding-x) var(--page-padding-y);
+}
+
+/* ============================================
+   QUOTE BANNER
+   ============================================ */
+
+.quote-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--page-padding-x);
+  margin: 0 calc(-1 * var(--page-padding-x));
+  background: var(--color-primary-light);
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.quote-banner__mark {
+  font-size: 2rem;
+  font-weight: var(--font-extrabold);
+  color: var(--color-primary);
+  line-height: 1;
+  opacity: 0.4;
+  flex-shrink: 0;
+  margin-top: -4px;
+}
+
+.quote-banner__text {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-primary-dark);
+  line-height: var(--leading-snug);
+  flex: 1;
+}
+
+.quote-banner__author {
+  font-size: var(--text-xs);
+  font-weight: var(--font-regular);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   PAGE HEADER
+   ============================================ */
+
+.dashboard__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-4);
+}
+
+.dashboard__greeting {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--font-regular);
+  margin-bottom: var(--space-1);
+}
+
+.dashboard__title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+
+/* ============================================
+   STATS SECTION
+   ============================================ */
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.stats__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+/* ============================================
+   STAT CARDS
+   ============================================ */
+
+.stat-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow var(--duration-base) var(--ease-default),
+              transform var(--duration-base) var(--ease-default);
+}
+
+.stat-card:active {
+  transform: scale(0.985);
+}
+
+/* Hero Card */
+.stat-card--hero {
+  background: var(--color-primary);
+  border-color: var(--color-primary-dark);
+  box-shadow: var(--shadow-primary);
+  padding: var(--space-6);
+}
+
+.stat-card--hero .stat-card__label {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.stat-card--hero .stat-card__value {
+  color: var(--color-text-inverse);
+  font-size: var(--text-3xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+.stat-card--hero .stat-card__sub {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Decorative accent circle on hero card */
+.stat-card__accent {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  bottom: -30px;
+  right: -20px;
+  pointer-events: none;
+}
+
+.stat-card__accent::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  top: -40px;
+  left: -40px;
+}
+
+/* Secondary Cards */
+.stat-card--secondary {
+  padding: var(--space-4);
+}
+
+/* Green accent card */
+.stat-card--green {
+  border-top: 3px solid var(--color-secondary);
+}
+
+.stat-card--green .stat-card__value--exercise {
+  color: var(--color-secondary-dark);
+}
+
+/* Chart card */
+.stat-card--chart {
+  padding: var(--space-4) var(--space-3) var(--space-3);
+}
+
+/* ============================================
+   STAT CARD TYPOGRAPHY
+   ============================================ */
+
+.stat-card__label {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--color-text-muted);
+}
+
+.stat-card__value {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-extrabold);
+  color: var(--color-text);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.stat-card__value--md {
+  font-size: var(--text-xl);
+}
+
+.stat-card__value--exercise {
+  font-size: var(--text-md);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+  margin-top: var(--space-1);
+}
+
+.stat-card__unit {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-muted);
+  margin-left: var(--space-1);
+}
+
+.stat-card__sub {
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  margin-top: var(--space-1);
+  font-weight: var(--font-regular);
+}
+
+/* ============================================
+   CHART SECTION
+   ============================================ */
+
+.chart-section {
+  margin-bottom: var(--space-8);
+}
+
+.chart-section__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.chart-section__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+}
+
+.chart-section__sub {
+  color: var(--color-text-subtle);
+}
+
+/* ============================================
+   BAR CHART
+   ============================================ */
+
+.chart {
+  width: 100%;
+}
+
+.chart__bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-2);
+  height: 120px;
+  padding-bottom: var(--space-6); /* room for labels */
+  position: relative;
+}
+
+/* Subtle horizontal gridlines via background */
+.chart__bars::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 var(--space-6) 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-border) 0px,
+    var(--color-border) 1px,
+    transparent 1px,
+    transparent 33.33%
+  );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.chart__col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.chart__bar-wrap {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 2px;
+}
+
+.chart__bar {
+  width: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-sm) var(--radius-sm) 2px 2px;
+  min-height: 4px;
+  transform-origin: bottom;
+  animation: barGrow var(--duration-slow) var(--ease-spring) both;
+}
+
+.chart__bar[data-empty="true"] {
+  background: var(--color-border);
+  min-height: 4px;
+  height: 4px !important;
+  border-radius: var(--radius-sm);
+}
+
+.chart__label {
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--color-text-subtle);
+  margin-top: var(--space-2);
+  text-align: center;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes barGrow {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Staggered fade-in for cards */
+.stat-card {
+  animation: fadeSlideUp var(--duration-slow) var(--ease-out) both;
+}
+
+.stat-card--hero       { animation-delay: 80ms; }
+.stats__grid .stat-card:nth-child(1) { animation-delay: 160ms; }
+.stats__grid .stat-card:nth-child(2) { animation-delay: 220ms; }
+.stat-card--chart      { animation-delay: 300ms; }
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   RESPONSIVE — TABLET+
+   ============================================ */
+
+@media (min-width: 640px) {
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .stat-card--hero {
+    grid-column: 1 / -1; /* still full width on tablet */
+  }
+
+  .stats__grid {
+    display: contents; /* children flow into parent grid */
+  }
+
+  .chart__bars {
+    height: 160px;
+  }
+}
