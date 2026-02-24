@@ -87,10 +87,10 @@ export default function Dashboard() {
 
       {/* Mobile Page Header */}
       <header className="dashboard__header">
-        <p className="dashboard__greeting">{getGreeting()} 👋</p>
-        <h1 className="dashboard__title">Your Progress</h1>
+        
+        <h1 className="dashboard__title">{getGreeting()} 👋</h1>
       </header>
-
+        <p className="dashboard__greeting">Your Progress</p>
       {/* Bento grid (desktop) / normal stacked flow (mobile) */}
       <div className="bento">
 
@@ -127,6 +127,32 @@ export default function Dashboard() {
               <span className="stat-card__label label-caps">Streak</span>
               <div className="stat-card__value stat-card__value--md tabular-nums">—</div>
               <p className="stat-card__sub">coming soon</p>
+            </div>
+
+              {/* Log Workout CTA */}
+            <div
+              className="stat-card stat-card--cta bento__extra"
+              onClick={() => navigate('/log')}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && navigate('/log')}
+            >
+              <svg
+                className="stat-card__cta-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              <p className="stat-card__cta-label">Log Workout</p>
+              <p className="stat-card__sub">tap to add</p>
             </div>
 
           </div>
