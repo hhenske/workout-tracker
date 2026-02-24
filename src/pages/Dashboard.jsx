@@ -7,15 +7,24 @@ const stats = {
   totalVolume: 184320,   // in lbs
   mostTrained: 'Bench Press',
   weeklyData: [
-    { day: 'Mon', count: 1 },
-    { day: 'Tue', count: 0 },
-    { day: 'Wed', count: 2 },
-    { day: 'Thu', count: 1 },
-    { day: 'Fri', count: 1 },
-    { day: 'Sat', count: 0 },
-    { day: 'Sun', count: 1 },
+    { day: 'Mon', hours: 1.0 },
+    { day: 'Tue', hours: 0 },
+    { day: 'Wed', hours: 1.5 },
+    { day: 'Thu', hours: 0.75 },
+    { day: 'Fri', hours: 1.25 },
+    { day: 'Sat', hours: 0 },
+    { day: 'Sun', hours: 0.5 },
   ],
 };
+
+// --- Greeting ---
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return 'Good morning';
+  if (hour < 17) return 'Good afternoon';
+  if (hour < 21) return 'Good evening';
+  return 'Good night';
+}
 
 // --- Mock Data (To be randomized from data file/api call) ---
 const quote = {
@@ -32,6 +41,17 @@ function formatVolume(lbs) {
 // --- Bar Chart Component ---
 function WeeklyBarChart({ data }) {
   const max = Math.max(...data.map((d) => d.count), 1);
+
+  
+// Converts decimal hours to a readable string: 1.5 → "1h 30m", 0.75 → "45m"
+function formatHours(hours) {
+  if (hours === 0) return '0m';
+  const h = Math.floor(hours);
+  const m = Math.round((hours - h) * 60);
+  if (h === 0) return `${m}m`;
+  if (m === 0) return `${h}h`;
+  return `${h}h ${m}m`;
+}
 
   return (
     <div className="chart">
@@ -71,7 +91,7 @@ export default function Dashboard() {
       {/* Page Header */}
       <header className="dashboard__header">
         <div>
-          <p className="dashboard__greeting">Good morning 👋</p>
+          <p className="dashboard__greeting">{getGreeting()} 👋</p>
           <h1 className="dashboard__title">Your Progress</h1>
         </div>
       </header>
@@ -116,7 +136,7 @@ export default function Dashboard() {
       <section className="chart-section">
         <div className="chart-section__header">
           <h2 className="chart-section__title">This Week</h2>
-          <span className="chart-section__sub label-caps">Workouts per day</span>
+          <span className="chart-section__sub label-caps">Hours of workout per day</span>
         </div>
         <div className="stat-card stat-card--chart">
           <WeeklyBarChart data={stats.weeklyData} />
