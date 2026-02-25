@@ -4,7 +4,7 @@
 const navItems = [
   { icon: '📊', label: 'Dashboard',   path: '/' },
   { icon: '🏋️', label: 'Workouts',    path: '/workouts' },
-  { icon: '➕', label: 'Log Workout', path: '/log' },
+  { icon: <PlusIcon />, label: 'Log Workout', path: '/log' },
   { icon: '📈', label: 'Progress',    path: '/progress' },
   { icon: '🗂️', label: 'Exercises',   path: '/exercises' },
 ];

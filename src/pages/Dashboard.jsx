@@ -1,5 +1,7 @@
 import './dashboard.css';
+import { useNavigate } from 'react-router-dom';
 
+const navigate = useNavigate();
 // --- Mock Data (replace with real data from your state/context) ---
 const stats = {
   totalWorkouts: 47,

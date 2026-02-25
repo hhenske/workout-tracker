@@ -123,9 +123,12 @@
 }
 
 .drawer__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.2rem;
   width: 24px;
-  text-align: center;
+  height: 24px;
   flex-shrink: 0;
 }
 
