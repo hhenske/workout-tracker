@@ -7,7 +7,15 @@ import SideNav from './components/SideNav';
 import MobileDrawer from './components/MobileDrawer';
 import Dashboard from './pages/Dashboard';
 
-function AppLayout() {
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return 'Good morning';
+  if (hour < 17) return 'Good afternoon';
+  if (hour < 21) return 'Good evening';
+  return 'Good night';
+}
+
+export default function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (

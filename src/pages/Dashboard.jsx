@@ -1,7 +1,7 @@
 import './dashboard.css';
 import { useNavigate } from 'react-router-dom';
 
-const navigate = useNavigate();
+
 // --- Mock Data (replace with real data from your state/context) ---
 const stats = {
   totalWorkouts: 47,
@@ -77,6 +77,9 @@ function WeeklyBarChart({ data }) {
 
 // --- Dashboard Page ---
 export default function Dashboard() {
+
+  const navigate = useNavigate();
+  
   return (
     <div className="dashboard">
 

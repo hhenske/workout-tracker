@@ -11,7 +11,7 @@ import {
 
 
 
-export const navItems = [
+const navItems = [
   { icon: HomeIcon, label: 'Dashboard', path: '/' },
   { icon: ClipboardDocumentListIcon, label: 'Workouts', path: '/workouts' },
   { icon: PlusCircleIcon, label: 'Log Workout', path: '/log' },
