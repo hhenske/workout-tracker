@@ -71,7 +71,7 @@ export default function MobileDrawer({ isOpen, onClose }) {
               className={`drawer__item${location.pathname === item.path ? ' active' : ''}`}
               onClick={() => handleNavClick(item.path)}
             >
-              <span className="drawer__icon">{item.icon}</span>
+              <span className="drawer__icon"><item.icon /></span>
               {item.label}
             </li>
           ))}

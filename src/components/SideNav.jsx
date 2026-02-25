@@ -29,7 +29,7 @@ export default function SideNav() {
             className={`side-nav__item${location.pathname === item.path ? ' active' : ''}`}
             onClick={() => navigate(item.path)}
           >
-            <span className="side-nav__icon">{item.icon}</span>
+            <span className="side-nav__icon"><item.icon /></span>
             {item.label}
           </li>
         ))}
