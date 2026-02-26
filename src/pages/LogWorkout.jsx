@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import { supabase } from '../supabaseClient';
+import { supabase } from '../services/supabaseClient';
 import './logWorkout.css';
 // import exercisesList from '../data/exercises';
 
@@ -70,44 +70,97 @@ export default function LogWorkout() {
     console.log(workout);
   }
 
-  async function handleSaveWorkout() {
+  async function handleSaveWorkout(e) {
+    e.preventDefault()
 
-    let exerciseId
+    try {
 
-    const existingExercise = exerciseList.find(
-        ex => ex.name.toLowerCase() === exerciseInput.toLowerCase()
-    )
+        // 1. Insert workout
+        const { data: workoutRow, error: workoutError } =
+        await supabase
+            .from('workouts')
+            .insert({
+            date: workout.date,
+            duration: workout.duration,
+            notes: workout.notes
+            })
+            .select()
+            .single()
 
-    if (existingExercise) {
+        if (workoutError) throw workoutError
 
-        exerciseId = existingExercise.id
+        const workoutId = workoutRow.id
 
-    } else {
 
-        const { data: newExercise, error } = await supabase
-        .from('exercises')
-        .insert({ name: exerciseInput })
-        .select()
-        .single()
+        // 2. Loop exercises
+        for (const exercise of workout.exercises) {
 
-        if (error) {
-        console.error(error)
-        return
+        let exerciseId
+
+        // Check if exercise exists
+        const existing = exerciseList.find(
+            ex => ex.name.toLowerCase() === exercise.name.toLowerCase()
+        )
+
+        if (existing) {
+
+            exerciseId = existing.id
+
+        } else {
+
+            const { data: newExercise, error } =
+            await supabase
+                .from('exercises')
+                .insert({ name: exercise.name })
+                .select()
+                .single()
+
+            if (error) throw error
+
+            exerciseId = newExercise.id
+
+            setExerciseList(prev => [...prev, newExercise])
         }
 
-        exerciseId = newExercise.id
 
-        setExerciseList([...exerciseList, newExercise])
+        // 3. Insert sets
+        for (let i = 0; i < exercise.sets.length; i++) {
+
+            const set = exercise.sets[i]
+
+            const { error } = await supabase
+            .from('sets')
+            .insert({
+                workout_id: workoutId,
+                exercise_id: exerciseId,
+                weight: Number(set.weight),
+                reps: Number(set.reps),
+                set_number: i + 1
+            })
+
+            if (error) throw error
+
+        }
+        }
+
+        alert('Workout saved successfully')
+
+        // Reset form
+        setWorkout({
+        date: new Date().toISOString().split('T')[0],
+        duration: '',
+        notes: '',
+        exercises: []
+        })
+
+    } catch (error) {
+
+        console.error(error)
+        alert('Error saving workout')
+
+    }
     }
 
-    await supabase.from('workouts').insert({
-        exercise_id: exerciseId,
-        sets,
-        weight,
-        date,
-        time
-    })
-    }
 
 
   useEffect(() => {
@@ -150,7 +203,7 @@ export default function LogWorkout() {
 
       <h1 className="page-title">Log Workout</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSaveWorkout}>
 
         {/* Workout Details */}
         <section className="card">
