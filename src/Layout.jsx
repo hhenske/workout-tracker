@@ -6,6 +6,8 @@ import Header from './components/Header';
 import SideNav from './components/SideNav';
 import MobileDrawer from './components/MobileDrawer';
 import Dashboard from './pages/Dashboard';
+import LogWorkout from './pages/LogWorkout';
+
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -51,10 +53,8 @@ export default function Layout() {
         {/* Page routes */}
         <Routes>
           <Route path="/"           element={<Dashboard />} />
-          {/* <Route path="/workouts"   element={<Workouts />} />
-          <Route path="/log"        element={<LogWorkout />} />
-          <Route path="/progress"   element={<Progress />} />
-          <Route path="/exercises"  element={<Exercises />} /> */}
+          <Route path="/log" element={<LogWorkout />} />
+          
         
         </Routes>
 

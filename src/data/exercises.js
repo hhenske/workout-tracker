@@ -1,0 +1,33 @@
+const exercises = [
+  "Bench Press",
+  "Incline Bench Press",
+  "Squat",
+  "Deadlift",
+  "Overhead Press",
+  "Barbell Row",
+  "Pull Up",
+  "Lat Pulldown",
+  "Bicep Curl",
+  "Tricep Extension",
+  "Leg Press",
+  "Leg Curl",
+  "Leg Extension",
+  "Calf Raise",
+  "Chest Fly",
+  "Lateral Raise",
+  "Indoor cycling",
+  "Rowing machine",
+  "Treadmill running",
+  "Elliptical trainer",
+  "Outdoor running",
+  "Outdoor cycling",
+  "Swimming",
+  "walking",
+  "yoga",
+  "Pilates",
+  "Zumba",
+  "Circuit training",
+  "HIIT (High-Intensity Interval Training)"
+];
+
+export default exercises;
