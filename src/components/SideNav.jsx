@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './SideNav.css';
 import logo from '../assets/logo-wc.png';
 import navItems from '../navItems';
+import { supabase } from '../services/supabaseClient';
 
 // SideNav — fixed left sidebar, visible on desktop only.
 // Hidden on mobile via CSS.
@@ -9,6 +10,11 @@ import navItems from '../navItems';
 export default function SideNav() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    navigate('/login');
+  }
 
   return (
     <nav className="side-nav">
@@ -40,6 +46,10 @@ export default function SideNav() {
           <span className="side-nav__icon">⚙️</span>
           Settings
         </div>
+        <button className="side-nav__logout" onClick={handleLogout}>
+          <span className="side-nav__icon">🚪</span>
+          Log Out
+        </button>
       </div>
     </nav>
   );

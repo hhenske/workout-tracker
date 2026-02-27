@@ -27,52 +27,52 @@ export async function getDashboardStats() {
   }
 
   // -------------------------
-  // 2. Get exercises
-  // -------------------------
-  const { data: exercises, error: exerciseError } = await supabase
-    .from('exercises')
-    .select('*')
-    .eq('user_id', user.id)
+// 2. Get sets (for volume + most trained)
+// -------------------------
+const { data: sets, error: setsError } = await supabase
+  .from('sets')
+  .select('*, exercises(name)')  // join to get exercise name
+  .eq('user_id', user.id)
 
-  if (exerciseError) {
-    console.error(exerciseError)
+if (setsError) {
+  console.error(setsError)
+}
+
+// -------------------------
+// 3. Total workouts
+// -------------------------
+const totalWorkouts = workouts.length
+
+// -------------------------
+// 4. Total volume
+// -------------------------
+let totalVolume = 0
+
+sets?.forEach(set => {
+  totalVolume += (set.weight || 0) * (set.reps || 0)
+})
+
+// -------------------------
+// 5. Most trained exercise
+// -------------------------
+const exerciseCount = {}
+
+sets?.forEach(set => {
+  const name = set.exercises?.name  // from the join
+  if (name) {
+    exerciseCount[name] = (exerciseCount[name] || 0) + 1
   }
+})
 
-  // -------------------------
-  // 3. Total workouts
-  // -------------------------
-  const totalWorkouts = workouts.length
+let mostTrained = '—'
+let maxCount = 0
 
-
-  // -------------------------
-  // 4. Total volume
-  // -------------------------
-  let totalVolume = 0
-
-  exercises?.forEach(ex => {
-    totalVolume += (ex.weight || 0) * (ex.reps || 0) * (ex.sets || 0)
-  })
-
-
-  // -------------------------
-  // 5. Most trained exercise
-  // -------------------------
-  const exerciseCount = {}
-
-  exercises?.forEach(ex => {
-    exerciseCount[ex.name] = (exerciseCount[ex.name] || 0) + 1
-  })
-
-  let mostTrained = '—'
-  let maxCount = 0
-
-  for (const name in exerciseCount) {
-    if (exerciseCount[name] > maxCount) {
-      mostTrained = name
-      maxCount = exerciseCount[name]
-    }
+for (const name in exerciseCount) {
+  if (exerciseCount[name] > maxCount) {
+    mostTrained = name
+    maxCount = exerciseCount[name]
   }
-
+}
 
   // -------------------------
   // 6. Weekly data

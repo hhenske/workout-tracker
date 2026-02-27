@@ -123,12 +123,9 @@
 }
 
 .drawer__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 1.2rem;
   width: 24px;
-  height: 24px;
+  text-align: center;
   flex-shrink: 0;
 }
 
@@ -147,4 +144,34 @@
   .drawer-backdrop {
     display: none !important;
   }
+}
+
+/* Force green color on specific icons regardless of nav item state */
+.icon--green {
+  color: var(--color-secondary) !important;
+}
+
+/* ---- Logout Button ---- */
+.drawer__logout {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3);
+  margin-top: var(--space-1);
+  border: none;
+  border-radius: var(--radius-md);
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--color-error);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-default);
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.drawer__logout:hover {
+  background: #FEF2F2;
 }

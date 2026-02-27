@@ -32,6 +32,12 @@ export default function MobileDrawer({ isOpen, onClose }) {
     onClose();
   }
 
+  async function handleLogout() {
+    onClose();
+    await supabase.auth.signOut();
+    navigate('/login');
+  }
+
   return (
     <>
       {/* Backdrop */}
@@ -82,6 +88,10 @@ export default function MobileDrawer({ isOpen, onClose }) {
             <span className="drawer__icon">⚙️</span>
             Settings
           </div>
+          <button className="drawer__logout" onClick={handleLogout}>
+            <span className="drawer__icon">🚪</span>
+            Log Out
+          </button>
         </div>
       </nav>
     </>
