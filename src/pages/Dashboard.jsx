@@ -1,4 +1,6 @@
 import './dashboard.css';
+import { useEffect, useState } from 'react';
+import {getDashboardStats } from '../services/workoutService';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -48,8 +50,8 @@ function formatHours(hours) {
 }
 
 // --- Bar Chart Component ---
-function WeeklyBarChart({ data }) {
-  const max = Math.max(...data.map((d) => d.hours), 0.1);
+function WeeklyBarChart({ data = [] }) {
+  const max = Math.max(...data.map((d) => d.hours || 0), 0.1);
 
   return (
     <div className="chart">
@@ -79,7 +81,30 @@ function WeeklyBarChart({ data }) {
 export default function Dashboard() {
 
   const navigate = useNavigate();
-  
+  const [stats, setStats] = useState({
+    totalWorkouts: 0,
+    totalVolume: 0,
+    mostTrained: '—',
+    weeklyData: []  
+  })
+  const [loading, setLoading] = useState(true);
+
+  console.log(stats);
+
+  useEffect(() => {
+    async function loadStats() {
+      const data = await getDashboardStats()
+      setStats(data);
+      setLoading(false);
+    }
+
+    loadStats();
+  }, []);
+
+    if (loading) {
+    return <div className="page">Loading dashboard...</div>
+    }
+
   return (
     <div className="dashboard">
 
@@ -104,7 +129,7 @@ export default function Dashboard() {
           {/* Hero Stat — Total Workouts */}
           <div className="stat-card stat-card--hero bento__hero">
             <span className="stat-card__label label-caps">Total Workouts</span>
-            <div className="stat-card__value tabular-nums">{stats.totalWorkouts}</div>
+            <div className="stat-card__value tabular-nums">{stats?.totalWorkouts ?? 0}</div>
             <p className="stat-card__sub">sessions logged</p>
             <div className="stat-card__accent" />
           </div>
@@ -114,7 +139,7 @@ export default function Dashboard() {
             <div className="stat-card stat-card--secondary bento__volume">
               <span className="stat-card__label label-caps">Volume</span>
               <div className="stat-card__value stat-card__value--md tabular-nums">
-                {formatVolume(stats.totalVolume)}
+                {formatVolume(stats?.totalVolume ?? 0)}
                 <span className="stat-card__unit">lbs</span>
               </div>
               <p className="stat-card__sub">total lifted</p>
@@ -170,7 +195,7 @@ export default function Dashboard() {
             <span className="chart-section__sub label-caps">Hours per day</span>
           </div>
           <div className="stat-card stat-card--chart">
-            <WeeklyBarChart data={stats.weeklyData} />
+            <WeeklyBarChart data={stats.weeklyData || []} />
           </div>
         </section>
 
