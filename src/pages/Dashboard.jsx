@@ -89,7 +89,7 @@ export default function Dashboard() {
   })
   const [loading, setLoading] = useState(true);
 
-  console.log(stats);
+  // console.log(stats);
 
   useEffect(() => {
     async function loadStats() {

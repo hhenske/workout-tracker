@@ -81,42 +81,9 @@
   object-fit: contain;
 }
 
-/* ---- Mode Tabs ---- */
+/* ---- Header ---- */
 
-.login-card__tabs {
-  display: flex;
-  background: var(--color-surface-2);
-  border-radius: var(--radius-md);
-  padding: 3px;
-  margin-bottom: var(--space-6);
-  gap: 3px;
-}
-
-.login-card__tab {
-  flex: 1;
-  padding: var(--space-2) var(--space-3);
-  border: none;
-  border-radius: calc(var(--radius-md) - 2px);
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: var(--color-text-muted);
-  background: transparent;
-  cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-default),
-              color var(--duration-fast) var(--ease-default),
-              box-shadow var(--duration-fast) var(--ease-default);
-}
-
-.login-card__tab.active {
-  background: var(--color-surface);
-  color: var(--color-text);
-  box-shadow: var(--shadow-sm);
-}
-
-/* ---- Heading ---- */
-
-.login-card__heading {
+.login-card__header {
   margin-bottom: var(--space-6);
 }
 
@@ -134,32 +101,54 @@
   color: var(--color-text-muted);
 }
 
+/* ---- Messages ---- */
+
+.login-card__message {
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  margin-bottom: var(--space-4);
+  line-height: var(--leading-snug);
+  animation: fadeSlideUp var(--duration-base) var(--ease-out) both;
+}
+
+.login-card__message--success {
+  background: var(--color-secondary-light);
+  color: var(--color-secondary-dark);
+  border: 1px solid #A7F3D0;
+}
+
+.login-card__message--error {
+  background: #FEF2F2;
+  color: var(--color-error);
+  border: 1px solid #FECACA;
+}
+
 /* ---- Form ---- */
 
-.login-form {
+.login-card__form {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 
-.login-form__field {
+/* ---- Form Fields ---- */
+
+.form-field {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
 }
 
-/* Animate the confirm password field sliding in */
-.login-form__field--animated {
-  animation: fadeSlideUp var(--duration-base) var(--ease-out) both;
-}
-
-.login-form__label {
+.form-field__label {
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
   color: var(--color-text);
 }
 
-.login-form__input {
+.form-field__input {
   height: 44px;
   padding: 0 var(--space-4);
   border: 1px solid var(--color-border);
@@ -174,42 +163,24 @@
   width: 100%;
 }
 
-.login-form__input::placeholder {
+.form-field__input::placeholder {
   color: var(--color-text-subtle);
 }
 
-.login-form__input:focus {
+.form-field__input:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-/* ---- Error & Success ---- */
-
-.login-form__error {
-  font-size: var(--text-sm);
-  color: var(--color-error);
-  background: #FEF2F2;
-  border: 1px solid #FECACA;
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-  line-height: var(--leading-snug);
-  animation: fadeSlideUp var(--duration-base) var(--ease-out) both;
-}
-
-.login-form__success {
-  font-size: var(--text-sm);
-  color: var(--color-secondary-dark);
-  background: var(--color-secondary-light);
-  border: 1px solid #A7F3D0;
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-  line-height: var(--leading-snug);
-  animation: fadeSlideUp var(--duration-base) var(--ease-out) both;
+.form-field__input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ---- Submit Button ---- */
 
-.login-form__submit {
+.login-card__submit {
+  width: 100%;
   height: 48px;
   background: var(--color-primary);
   color: var(--color-text-inverse);
@@ -226,17 +197,59 @@
   margin-top: var(--space-2);
 }
 
-.login-form__submit:hover:not(:disabled) {
+.login-card__submit:hover:not(:disabled) {
   background: var(--color-primary-dark);
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
   transform: translateY(-1px);
 }
 
-.login-form__submit:active:not(:disabled) {
+.login-card__submit:active:not(:disabled) {
   transform: scale(0.98);
 }
 
-.login-form__submit:disabled {
+.login-card__submit:disabled {
   opacity: 0.65;
   cursor: not-allowed;
+}
+
+/* ---- Toggle ---- */
+
+.login-card__toggle {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.login-card__toggle-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  padding: 0;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.login-card__toggle-btn:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+.login-card__toggle-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Auth Loading State ---- */
+
+.auth-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
 }
