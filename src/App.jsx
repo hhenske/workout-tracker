@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './Layout';
@@ -36,7 +37,7 @@ export default function App() {
 
 
   return (
-    <HashRouter basename="/workout-tracker">
+    <HashRouter>
       <Routes>
         {/* Public — redirect to home if already logged in */}
         <Route
