@@ -626,6 +626,15 @@
   display: none;
 }
 
+.auth-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
 @media (min-width: 640px) {
   .stats {
     display: grid;
