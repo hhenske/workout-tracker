@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { HashRouterRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './Layout';
 import Login from './pages/Login';
 import { supabase } from './services/supabaseClient';    // ✅ named import
