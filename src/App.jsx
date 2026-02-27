@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouterRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './Layout';
 import Login from './pages/Login';
 import { supabase } from './services/supabaseClient';    // ✅ named import
-import Header from './components/Header';
-import SideNav from './components/SideNav';
-import MobileDrawer from './components/MobileDrawer';
-import Dashboard from './pages/Dashboard';
 
 
 // Owns the drawer open/close state so Header and MobileDrawer can share it.
@@ -40,7 +36,7 @@ export default function App() {
 
 
   return (
-    <BrowserRouter basename="/workout-tracker">
+    <HashRouter basename="/workout-tracker">
       <Routes>
         {/* Public — redirect to home if already logged in */}
         <Route
@@ -54,6 +50,6 @@ export default function App() {
           element={session ? <Layout /> : <Navigate to="/login" replace />}
         />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
