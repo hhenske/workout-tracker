@@ -7,6 +7,9 @@ import SideNav from './components/SideNav';
 import MobileDrawer from './components/MobileDrawer';
 import Dashboard from './pages/Dashboard';
 import LogWorkout from './pages/LogWorkout';
+import Workouts from './pages/Workouts';
+import Exercises from './pages/Exercises';
+import Progress from './pages/Progress';
 
 
 function getGreeting() {
@@ -54,7 +57,9 @@ export default function Layout() {
         <Routes>
           <Route path="/"           element={<Dashboard />} />
           <Route path="/log" element={<LogWorkout />} />
-          
+          <Route path="/workouts" element={<Workouts />} />
+          <Route path="/exercises" element={<Exercises />} />
+          <Route path="/progress" element={<Progress />} />
         
         </Routes>
 
