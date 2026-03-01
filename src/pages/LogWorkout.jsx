@@ -65,103 +65,114 @@ export default function LogWorkout() {
     });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(workout);
-  }
-
   async function handleSaveWorkout(e) {
-    e.preventDefault()
+  e.preventDefault();
 
-    try {
+  try {
 
-        // 1. Insert workout
-        const { data: workoutRow, error: workoutError } =
-        await supabase
-            .from('workouts')
-            .insert({
-            date: workout.date,
-            duration: workout.duration,
-            notes: workout.notes
-            })
-            .select()
-            .single()
+    // ✅ Get logged in user
+    const {
+      data: { user },
+      error: userError
+    } = await supabase.auth.getUser();
 
-        if (workoutError) throw workoutError
-
-        const workoutId = workoutRow.id
+    if (userError || !user) {
+      console.error('Error getting user:', userError);
+      alert('You must be logged in');
+      return;
+    }
 
 
-        // 2. Loop exercises
-        for (const exercise of workout.exercises) {
-
-        let exerciseId
-
-        // Check if exercise exists
-        const existing = exerciseList.find(
-            ex => ex.name.toLowerCase() === exercise.name.toLowerCase()
-        )
-
-        if (existing) {
-
-            exerciseId = existing.id
-
-        } else {
-
-            const { data: newExercise, error } =
-            await supabase
-                .from('exercises')
-                .insert({ name: exercise.name })
-                .select()
-                .single()
-
-            if (error) throw error
-
-            exerciseId = newExercise.id
-
-            setExerciseList(prev => [...prev, newExercise])
-        }
-
-
-        // 3. Insert sets
-        for (let i = 0; i < exercise.sets.length; i++) {
-
-            const set = exercise.sets[i]
-
-            const { error } = await supabase
-            .from('sets')
-            .insert({
-                workout_id: workoutId,
-                exercise_id: exerciseId,
-                weight: Number(set.weight),
-                reps: Number(set.reps),
-                set_number: i + 1
-            })
-
-            if (error) throw error
-
-        }
-        }
-
-        alert('Workout saved successfully')
-
-        // Reset form
-        setWorkout({
-        date: new Date().toISOString().split('T')[0],
-        duration: '',
-        notes: '',
-        exercises: []
+    // ✅ 1. Insert workout WITH user_id
+    const { data: workoutRow, error: workoutError } =
+      await supabase
+        .from('workouts')
+        .insert({
+          user_id: user.id,     // ⭐ THIS FIXES YOUR PROBLEM
+          date: workout.date,
+          duration: Number(workout.duration),
+          notes: workout.notes
         })
+        .select()
+        .single();
 
-    } catch (error) {
+    if (workoutError) throw workoutError;
 
-        console.error(error)
-        alert('Error saving workout')
+    const workoutId = workoutRow.id;
+
+
+    // ✅ 2. Loop exercises
+    for (const exercise of workout.exercises) {
+
+      let exerciseId;
+
+      // check if exercise exists
+      const existing = exerciseList.find(
+        ex => ex.name.toLowerCase() === exercise.name.toLowerCase()
+      );
+
+      if (existing) {
+
+        exerciseId = existing.id;
+
+      } else {
+
+        const { data: newExercise, error } =
+          await supabase
+            .from('exercises')
+            .insert({ name: exercise.name })
+            .select()
+            .single();
+
+        if (error) throw error;
+
+        exerciseId = newExercise.id;
+
+        setExerciseList(prev => [...prev, newExercise]);
+      }
+
+
+      // ✅ 3. Insert sets
+      for (let i = 0; i < exercise.sets.length; i++) {
+
+        const set = exercise.sets[i];
+
+        const { error } = await supabase
+          .from('sets')
+          .insert({
+            workout_id: workoutId,
+            exercise_id: exerciseId,
+            weight: Number(set.weight),
+            reps: Number(set.reps),
+            set_number: i + 1
+          });
+
+        if (error) throw error;
+
+      }
 
     }
-    }
 
 
+    alert('Workout saved successfully');
+
+
+    // ✅ Reset form
+    setWorkout({
+      date: new Date().toISOString().split('T')[0],
+      duration: '',
+      notes: '',
+      exercises: []
+    });
+
+
+  } catch (error) {
+
+    console.error(error);
+    alert('Error saving workout');
+
+  }
+}
 
   useEffect(() => {
     fetchExercises()
