@@ -4,21 +4,6 @@ import {getDashboardStats } from '../services/workoutService';
 import { useNavigate } from 'react-router-dom';
 
 
-// --- Mock Data (replace with real data from your state/context) ---
-const stats = {
-  totalWorkouts: 47,
-  totalVolume: 184320,   // in lbs
-  mostTrained: 'Bench Press',
-  weeklyData: [
-    { day: 'Mon', hours: 1.0 },
-    { day: 'Tue', hours: 0 },
-    { day: 'Wed', hours: 1.5 },
-    { day: 'Thu', hours: 0.75 },
-    { day: 'Fri', hours: 1.25 },
-    { day: 'Sat', hours: 0 },
-    { day: 'Sun', hours: 0.5 },
-  ],
-};
 
 const quote = {
   text: "The only bad workout is the one that didn't happen.",

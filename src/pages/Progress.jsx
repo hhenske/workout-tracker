@@ -1,5 +1,8 @@
 import DurationChart from '../components/charts/DurationChart';
 import FrequencyChart from '../components/charts/FrequencyChart';
+import TotalVolumeChart from '../components/charts/TotalVolumeChart';
+import VolumeChart from '../components/charts/VolumeChart';
+
 import './Progress.css';
 
 
@@ -14,7 +17,8 @@ export default function Progress() {
       <div className="progress-grid">
         <DurationChart />
         <FrequencyChart />
-        {/* <VolumeByExerciseChart /> */}
+        <VolumeChart />
+        <TotalVolumeChart />
       </div>
     </div>
   );

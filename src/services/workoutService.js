@@ -31,13 +31,19 @@ export async function getDashboardStats() {
 // -------------------------
 const { data: sets, error: setsError } = await supabase
   .from('sets')
-  .select('*, exercises(name)')  // join to get exercise name
-  .eq('user_id', user.id)
+  .select(`
+    weight,
+    reps,
+    exercises(name),
+    workouts!inner(user_id)
+  `)
+  .eq('workouts.user_id', user.id)
 
-if (setsError) {
-  console.error(setsError)
-}
+  if (setsError) {
+    console.error(setsError)
+   }
 
+// console.log("SETS: ", sets)
 // -------------------------
 // 3. Total workouts
 // -------------------------
@@ -46,10 +52,13 @@ const totalWorkouts = workouts.length
 // -------------------------
 // 4. Total volume
 // -------------------------
+
 let totalVolume = 0
 
 sets?.forEach(set => {
-  totalVolume += (set.weight || 0) * (set.reps || 0)
+  const weight = set.weight || 0
+  const reps = set.reps || 0
+  totalVolume += weight * reps
 })
 
 // -------------------------
