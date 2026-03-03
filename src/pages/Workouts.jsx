@@ -1,223 +1,230 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '../services/supabaseClient';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import './Workouts.css';
-
+import { useState, useEffect } from 'react'
+import { supabase } from '../services/supabaseClient'
+import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import './Workouts.css'
 
 export default function Workouts() {
-  
-    const [workouts, setWorkouts] = useState([])
-    const [expandedId, setExpandedId] = useState(null)
-    const [expanded, setExpanded] = useState(null)
-    const [searchTerm, setSearchTerm] = useState('')
-    const [visibleCount, setVisibleCount] = useState(7)
 
-    function toggleWorkout(id) {
-        setExpandedId(expandedId === id ? null : id)
-        setExpanded(prev => prev === id ? null : id)
-    }
+  const [workouts, setWorkouts] = useState([])
+  const [expandedId, setExpandedId] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [visibleCount, setVisibleCount] = useState(7)
 
-    useEffect(() => {
-        fetchWorkouts()
-    }, [])
-
-    async function fetchWorkouts() {
-
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
-
-  if (!user) return
-
-
-  const { data, error } = await supabase
-    .from('workouts')
-    .select(`
-      id,
-      date,
-      duration,
-      notes,
-      sets (
-        id,
-        weight,
-        reps,
-        set_number,
-        exercises (
-          id,
-          name
-        )
-      )
-    `)
-    .eq('user_id', user.id)
-    .order('date', { ascending: false })
-    .limit(40)
-
-
-  if (error) {
-    console.error(error)
-    return
+  function toggleWorkout(id) {
+    setExpandedId(prev => (prev === id ? null : id))
   }
 
-  const filteredWorkouts = data.filter(workout => {
+  useEffect(() => {
+    fetchWorkouts()
+  }, [])
+
+  async function fetchWorkouts() {
+
+    const {
+      data: { user }
+    } = await supabase.auth.getUser()
+
+    if (!user) return
+
+    const { data, error } = await supabase
+      .from('workouts')
+      .select(`
+        id,
+        date,
+        duration,
+        notes,
+        sets (
+          id,
+          weight,
+          reps,
+          set_number,
+          exercises (
+            id,
+            name
+          )
+        )
+      `)
+      .eq('user_id', user.id)
+      .order('date', { ascending: false })
+      .limit(40)
+
+    if (error) {
+      console.error(error)
+      return
+    }
+
+    // Group sets by exercise
+    const formatted = data.map(workout => {
+
+      const exerciseMap = {}
+
+      workout.sets.forEach(set => {
+
+        const name = set.exercises.name
+
+        if (!exerciseMap[name]) {
+          exerciseMap[name] = {
+            name,
+            sets: [],
+            volume: 0
+          }
+        }
+
+        exerciseMap[name].sets.push(set)
+        exerciseMap[name].volume +=
+          (set.weight || 0) * (set.reps || 0)
+
+      })
+
+      return {
+        ...workout,
+        exercises: Object.values(exerciseMap)
+      }
+
+    })
+
+    setWorkouts(formatted)
+  }
+
+  function formatDate(dateStr) {
+    return new Date(dateStr).toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    })
+  }
+
+  /* =========================
+     FILTER + DISPLAY LOGIC
+     ========================= */
+
+  const filteredWorkouts = workouts.filter(workout => {
+
     const term = searchTerm.toLowerCase()
 
     const dateMatch = formatDate(workout.date)
-        .toLowerCase()
-        .includes(term)
+      .toLowerCase()
+      .includes(term)
 
     const exerciseMatch = workout.exercises.some(ex =>
-        ex.name.toLowerCase().includes(term)
+      ex.name.toLowerCase().includes(term)
     )
 
     return dateMatch || exerciseMatch
   })
 
-    
   const displayedWorkouts = searchTerm
     ? filteredWorkouts
-    : data.slice(0, visibleCount)
+    : filteredWorkouts.slice(0, visibleCount)
 
-m
+  /* ========================= */
 
-  // group sets by exercise
-  const formatted = data.map(workout => {
+  return (
+    <div className="workouts">
 
-    const exerciseMap = {}
+      <h1 className="page-title">Workouts</h1>
 
-    workout.sets.forEach(set => {
+      {/* SEARCH */}
+      <input
+        type="text"
+        placeholder="Search by date or exercise..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="workout-search"
+      />
 
-      const name = set.exercises.name
+      <div className="workout-list">
+        {displayedWorkouts.map(workout => (
 
-      if (!exerciseMap[name]) {
-        exerciseMap[name] = {
-          name,
-          sets: [],
-          volume: 0
-        }
-      }
+          <div key={workout.id} className="workout-card">
 
-      exerciseMap[name].sets.push(set)
+            <div
+              className="workout-summary"
+              onClick={() => toggleWorkout(workout.id)}
+            >
 
-      exerciseMap[name].volume +=
-        (set.weight || 0) * (set.reps || 0)
+              <div className="workout-summary__left">
 
-    })
+                <div className="workout-summary__title">
+                  {workout.exercises.length === 0
+                    ? 'Workout'
+                    : workout.exercises.length === 1
+                    ? workout.exercises[0].name
+                    : `${workout.exercises[0].name}...`
+                  }
+                </div>
 
-    return {
-      ...workout,
-      exercises: Object.values(exerciseMap)
-    }
+                <div className="workout-summary__meta">
+                  <span>{formatDate(workout.date)}</span>
+                  <span>{workout.duration} min</span>
+                </div>
 
-  })
-
-  setWorkouts(formatted)
-
-}
-
-
-
-  function formatDate(dateStr) {
-
-    return new Date(dateStr)
-      .toLocaleDateString(undefined, {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      })
-
-  }
-  
-  console.log(workouts)
-    
-return (
-  <div className="workouts">
-
-    <h1 className="page-title">Workouts</h1>
-
-    <div className="workout-list">
-      {workouts.map(workout => (
-
-        <div key={workout.id} className="workout-card">
-
-          {/* HEADER */}
-          <div
-            className="workout-summary"
-            onClick={() => toggleWorkout(workout.id)}
-          >
-
-            <div className="workout-summary__left">
-
-              <div className="workout-summary__title">
-                {workout.exercises.length === 0
-                  ? 'Workout'
-                  : workout.exercises.length === 1
-                  ? workout.exercises[0].name
-                  : `${workout.exercises[0].name}...`
-                }
               </div>
 
-              <div className="workout-summary__meta">
-                <span>{formatDate(workout.date)}</span>
-                <span>{workout.duration} min</span>
-              </div>
+              <ChevronDownIcon
+                className={`workout-expand-icon ${
+                  expandedId === workout.id ? 'is-open' : ''
+                }`}
+              />
 
             </div>
 
-            <ChevronDownIcon
-              className={`workout-expand-icon ${
-                expandedId === workout.id ? 'is-open' : ''
-              }`}
-            />
+            {expandedId === workout.id && (
+              <div className="workout-details">
 
-          </div>
+                {workout.exercises.length === 1 ? (
+                  workout.notes && (
+                    <div className="workout-notes-block">
+                      <span className="details-label">Notes</span>
+                      <p className="workout-notes">{workout.notes}</p>
+                    </div>
+                  )
+                ) : (
 
-          {/* EXPANDED */}
-          {expandedId === workout.id && (
-            <div className="workout-details">
+                  workout.exercises.map((exercise, index) => (
+                    <div key={index} className="exercise-block">
 
-              {/* SINGLE EXERCISE → Notes Only */}
-              {workout.exercises.length === 1 ? (
-                workout.notes && (
-                  <div className="workout-notes-block">
-                    <span className="details-label">Notes</span>
-                    <p className="workout-notes">{workout.notes}</p>
-                  </div>
-                )
-              ) : (
+                      <span className="exercise-name-small">
+                        {exercise.name}
+                      </span>
 
-                workout.exercises.map((exercise, index) => (
-                  <div key={index} className="exercise-block">
+                      <div className="exercise-meta">
 
-                    <span className="exercise-name-small">
-                      {exercise.name}
-                    </span>
+                        <div>
+                          <span className="details-label">Volume</span>
+                          <span>{exercise.volume} lbs</span>
+                        </div>
 
-                    <div className="exercise-meta">
+                        <div>
+                          <span className="details-label">Sets</span>
+                          <span>{exercise.sets.length}</span>
+                        </div>
 
-                      <div>
-                        <span className="details-label">Volume</span>
-                        <span>{exercise.volume} lbs</span>
-                      </div>
-
-                      <div>
-                        <span className="details-label">Sets</span>
-                        <span>{exercise.sets.length}</span>
                       </div>
 
                     </div>
+                  ))
 
-                  </div>
-                ))
+                )}
 
-              )}
+              </div>
+            )}
 
-            </div>
-          )}
+          </div>
 
-        </div>
+        ))}
+      </div>
 
-      ))}
+      {/* LOAD MORE */}
+      {!searchTerm && visibleCount < filteredWorkouts.length && (
+        <button
+          className="load-more"
+          onClick={() => setVisibleCount(prev => prev + 7)}
+        >
+          Load More
+        </button>
+      )}
+
     </div>
-
-  </div>
-)}
+  )
+}
