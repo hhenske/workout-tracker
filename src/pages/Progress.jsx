@@ -1,10 +1,11 @@
 import DurationChart from '../components/charts/DurationChart';
+import FrequencyChart from '../components/charts/FrequencyChart';
 import './Progress.css';
 
 
 export default function Progress() {
   
-  
+
   
     return (
     <div className="progress">
@@ -12,8 +13,8 @@ export default function Progress() {
       
       <div className="progress-grid">
         <DurationChart />
-        {/* <WorkoutFrequencyChart />
-        <VolumeByExerciseChart /> */}
+        <FrequencyChart />
+        {/* <VolumeByExerciseChart /> */}
       </div>
     </div>
   );

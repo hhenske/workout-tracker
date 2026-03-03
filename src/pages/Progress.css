@@ -21,3 +21,10 @@
   font-weight: var(--font-semibold);
   margin-bottom: var(--space-4);
 }
+
+@media (min-width: 1024px) {
+  .progress-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
