@@ -30,6 +30,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-3);
+  align-items: start;
 }
 
 
@@ -39,12 +40,12 @@
 
 .workout-card {
   width: 100%;
+  align-self: start;
   background: var(--color-surface);
   padding: var(--space-4);
   border-radius: var(--radius-lg);
   transition:
     box-shadow var(--duration-base) var(--ease-default),
-    border var(--duration-base) var(--ease-default);
 }
 
 /* Add border + shadow ONLY when expanded */

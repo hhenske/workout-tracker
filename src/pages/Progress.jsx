@@ -1,8 +1,20 @@
+import DurationChart from '../components/charts/DurationChart';
+import './Progress.css';
+
+
 export default function Progress() {
-  return (
-    <div>
+  
+  
+  
+    return (
+    <div className="progress">
       <h1>Progress</h1>
-      <p>Your Progress will appear here.</p>
+      
+      <div className="progress-grid">
+        <DurationChart />
+        {/* <WorkoutFrequencyChart />
+        <VolumeByExerciseChart /> */}
+      </div>
     </div>
   );
 }
