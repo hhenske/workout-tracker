@@ -9,6 +9,8 @@ export default function Workouts() {
     const [workouts, setWorkouts] = useState([])
     const [expandedId, setExpandedId] = useState(null)
     const [expanded, setExpanded] = useState(null)
+    const [searchTerm, setSearchTerm] = useState('')
+    const [visibleCount, setVisibleCount] = useState(7)
 
     function toggleWorkout(id) {
         setExpandedId(expandedId === id ? null : id)
@@ -48,6 +50,7 @@ export default function Workouts() {
     `)
     .eq('user_id', user.id)
     .order('date', { ascending: false })
+    .limit(40)
 
 
   if (error) {
@@ -55,6 +58,26 @@ export default function Workouts() {
     return
   }
 
+  const filteredWorkouts = data.filter(workout => {
+    const term = searchTerm.toLowerCase()
+
+    const dateMatch = formatDate(workout.date)
+        .toLowerCase()
+        .includes(term)
+
+    const exerciseMatch = workout.exercises.some(ex =>
+        ex.name.toLowerCase().includes(term)
+    )
+
+    return dateMatch || exerciseMatch
+  })
+
+    
+  const displayedWorkouts = searchTerm
+    ? filteredWorkouts
+    : data.slice(0, visibleCount)
+
+m
 
   // group sets by exercise
   const formatted = data.map(workout => {
