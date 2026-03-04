@@ -64,7 +64,10 @@ export default function TotalVolumeChart() {
 
   return (
     <div className="chart-card">
-      <h2 className="chart-title">Total Workout Volume</h2>
+      <div className="chart-header">
+        <h2 className="chart-title">Total Workout Volume</h2>
+        <div className="chart-controls" />
+    </div>
 
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>

@@ -9,6 +9,8 @@
 }
 
 .chart-card {
+  display: flex;
+  flex-direction: column;
   background: var(--color-surface);
   padding: var(--space-5);
   border-radius: var(--radius-lg);
@@ -16,10 +18,24 @@
   box-shadow: var(--shadow-sm);
 }
 
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  min-height: 42px; /* forces equal header height */
+}
+
 .chart-title {
   font-size: var(--text-md);
   font-weight: var(--font-semibold);
   margin-bottom: var(--space-4);
+}
+
+.chart-controls {
+  display: flex;
+  align-items: center;
 }
 
 .chart-select {

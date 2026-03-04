@@ -104,21 +104,25 @@ export default function VolumeChart() {
 
   return (
     <div className="chart-card">
-      <h2 className="chart-title">Volume Per Exercise</h2>
+     <div className="chart-header">
+  <h2 className="chart-title">Volume Per Exercise</h2>
 
-      {Object.keys(exerciseData).length > 0 && (
-        <select
-          className="chart-select"
-          value={selectedExercise}
-          onChange={(e) => setSelectedExercise(e.target.value)}
-        >
-          {Object.keys(exerciseData).map(exercise => (
-            <option key={exercise} value={exercise}>
-              {exercise}
-            </option>
-          ))}
-        </select>
-      )}
+  <div className="chart-controls">
+    {Object.keys(exerciseData).length > 0 && (
+      <select
+        className="chart-select"
+        value={selectedExercise}
+        onChange={(e) => setSelectedExercise(e.target.value)}
+      >
+        {Object.keys(exerciseData).map(exercise => (
+          <option key={exercise} value={exercise}>
+            {exercise}
+          </option>
+        ))}
+      </select>
+    )}
+  </div>
+</div>
 
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData}>
