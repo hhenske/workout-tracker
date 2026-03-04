@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../services/supabaseClient'
 import ExerciseVolumeChart from './charts/ExerciseVolumeChart'
+import Exercise1RMChart from './charts/Exercise1RMChart'
+import './ExerciseAnalytics.css'
+
+
 
 
 export default function ExerciseAnalytics({ exerciseName }) {
@@ -127,7 +131,8 @@ export default function ExerciseAnalytics({ exerciseName }) {
 
       {/* Charts */}
       <ExerciseVolumeChart sets={sets} />
-
+      <ExerciseVolumeChart sets={sets} />
+      <Exercise1RMChart sets={sets} />
     </>
   )
 }

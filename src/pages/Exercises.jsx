@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../services/supabaseClient'
 import ExerciseAnalytics from '../components/ExerciseAnalytics'
+import './Exercises.css'
 
 export default function Exercises() {
   const [exercises, setExercises] = useState([])
@@ -34,10 +35,9 @@ export default function Exercises() {
     ]
 
     setExercises(unique)
+    setSelected(null)
 
-    if (unique.length > 0) {
-      setSelected(unique[0])
-    }
+
   }
 
   return (
@@ -63,7 +63,11 @@ export default function Exercises() {
             <ExerciseAnalytics exerciseName={selected} />
           ) : (
             <div className="exercise-empty">
-              Select an exercise to view analytics
+                <h3>Deep Dive Into Your Training</h3>
+                <p>
+                    Select an exercise from the list to view detailed volume,
+                    strength progression, and performance analytics.
+                </p>
             </div>
           )}
         </div>
