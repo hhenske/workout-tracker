@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../services/supabaseClient'
-// import ExerciseAnalytics from '../components/ExerciseAnalytics'
+import ExerciseAnalytics from '../components/ExerciseAnalytics'
 
 export default function Exercises() {
-
   const [exercises, setExercises] = useState([])
   const [selected, setSelected] = useState(null)
 
@@ -12,14 +11,16 @@ export default function Exercises() {
   }, [])
 
   async function fetchExercises() {
-
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
 
     const { data, error } = await supabase
       .from('sets')
-      .select('exercises(name)')
-      .eq('user_id', user.id)
+      .select(`
+        exercises(name),
+        workouts!inner(user_id)
+      `)
+      .eq('workouts.user_id', user.id)
 
     if (error) {
       console.error(error)
@@ -41,25 +42,33 @@ export default function Exercises() {
 
   return (
     <div className="exercises-page">
-        <div className="exercises-layout">
+      <div className="exercises-layout">
 
+        {/* Exercise List */}
         <div className="exercise-list">
-            {exercises.map(name => (
+          {exercises.map(name => (
             <div
-                key={name}
-                className={`exercise-item ${selected === name ? 'active' : ''}`}
-                onClick={() => setSelected(name)}
+              key={name}
+              className={`exercise-item ${selected === name ? 'active' : ''}`}
+              onClick={() => setSelected(name)}
             >
-                {name}
+              {name}
             </div>
-            ))}
+          ))}
         </div>
 
+        {/* Analytics Panel */}
         <div className="exercise-panel">
-            {selected && <ExerciseAnalytics exerciseName={selected} />}
+          {selected ? (
+            <ExerciseAnalytics exerciseName={selected} />
+          ) : (
+            <div className="exercise-empty">
+              Select an exercise to view analytics
+            </div>
+          )}
         </div>
 
-        </div>
+      </div>
     </div>
   )
 }

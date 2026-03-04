@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 
+
+
 const quote = {
   text: "The only bad workout is the one that didn't happen.",
   author: "Unknown",
