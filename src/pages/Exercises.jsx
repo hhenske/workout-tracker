@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../services/supabaseClient'
-import ExerciseAnalytics from '../components/ExerciseAnalytics'
+import ExerciseAnalytics from '../components/ExerciseAnalytics/ExerciseAnalytics'
 import './Exercises.css'
 
 export default function Exercises() {

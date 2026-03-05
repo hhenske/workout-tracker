@@ -67,6 +67,11 @@
   box-shadow: var(--shadow-sm);
 }
 
+.exercise-section {
+  margin-bottom: var(--space-10);
+}
+
+
 /* ============================= */
 /* Stats Section */
 /* ============================= */
@@ -140,4 +145,23 @@
   margin-bottom: var(--space-4);
 }
 
+/* ============================= */
+/* Exercise Header */
+/* ============================= */
+
+.exercise-header {
+  margin-bottom: var(--space-8);
+}
+
+.exercise-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+
+.exercise-meta {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
 

@@ -1,7 +1,7 @@
 import DurationChart from '../components/charts/DurationChart';
 import FrequencyChart from '../components/charts/FrequencyChart';
 import TotalVolumeChart from '../components/charts/TotalVolumeChart';
-import VolumeChart from '../components/charts/VolumeChart';
+import VolumeChart from '../components/ExerciseAnalytics/VolumeChart';
 
 import './Progress.css';
 
