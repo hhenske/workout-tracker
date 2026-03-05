@@ -20,7 +20,7 @@
 
   /* --- Colors: Brand --- */
   --color-primary:      #2563EB;   /* Electric blue — CTAs, active states */
-  --color-primary-light:#EFF6FF;   /* Tinted blue — highlights, chips */
+  --color-primary-light:#DBEAFE;   /* Tinted blue — highlights, chips */
   --color-primary-dark: #1D4ED8;   /* Pressed/hover state for primary */
 
   --color-secondary:    #10B981;   /* Green — progress, success, PRs */
