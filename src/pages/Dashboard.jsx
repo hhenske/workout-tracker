@@ -79,6 +79,15 @@ export default function Dashboard() {
 
   // console.log(stats);
 
+  function formatDuration(minutes) {
+    const hrs = Math.floor(minutes / 60)
+    const mins = minutes % 60
+
+    if (hrs === 0) return `${mins}m`
+    return `${hrs}h ${mins}m`
+  }
+
+
   useEffect(() => {
     async function loadStats() {
       const data = await getDashboardStats()
@@ -110,7 +119,28 @@ export default function Dashboard() {
         
         <h1 className="dashboard__title">{getGreeting()} 👋</h1>
       </header>
-        <p className="dashboard__greeting">Your Progress</p>
+       <p className="dashboard__greeting">Your Progress</p>
+
+       <div className="dashboard-week">
+      <span className="dashboard-week__label">This Week</span>
+
+      <div className="dashboard-week__stats">
+
+        <span>
+          <strong>{stats?.weeklySummary?.workouts ?? 0}</strong> workouts
+        </span>
+
+        <span>
+          <strong>{formatVolume(stats?.weeklySummary?.volume ?? 0)}</strong> lbs
+        </span>
+
+        <span>
+          <strong>{formatDuration(stats?.weeklySummary?.minutes ?? 0)}</strong> training
+        </span>
+
+      </div>
+    </div>
+
       {/* Bento grid (desktop) / normal stacked flow (mobile) */}
       <div className="bento">
 

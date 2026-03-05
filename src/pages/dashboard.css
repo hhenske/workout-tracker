@@ -320,7 +320,7 @@
   background: var(--color-surface);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
-  padding: var(--space-5);
+  padding: var(--space-4);
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
@@ -340,19 +340,18 @@
   padding: var(--space-6);
 }
 
-.stat-card--hero .stat-card__label {
+.stat-card.stat-card--hero .stat-card__label {
   color: rgba(255, 255, 255, 0.65);
 }
 
-.stat-card--hero .stat-card__value {
+.stat-card.stat-card--hero .stat-card__value {
   color: var(--color-text-inverse);
-  font-size: var(--text-3xl);
-  letter-spacing: var(--tracking-tight);
 }
 
-.stat-card--hero .stat-card__sub {
+.stat-card.stat-card--hero .stat-card__sub {
   color: rgba(255, 255, 255, 0.55);
 }
+
 
 /* Decorative accent circle on hero card */
 .stat-card__accent {
@@ -677,6 +676,33 @@
   .drawer-backdrop {
     display: none !important;
   }
+
+
+  /* Weekly Summary */
+
+.dashboard-week {
+  margin-bottom: var(--space-6);
+}
+
+.dashboard-week__label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.dashboard-week__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-size: var(--text-base);
+  color: var(--color-text);
+}
+
+.dashboard-week__stats strong {
+  font-weight: var(--font-semibold);
+}
 
   /* ---- Side Navigation ---- */
   .side-nav {

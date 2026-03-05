@@ -103,6 +103,37 @@ for (const name in exerciseCount) {
     weeklyData[dayIndex].hours += minutes / 60
   })
 
+  // -------------------------
+// 7. Weekly summary
+// -------------------------
+
+const startOfWeek = new Date()
+startOfWeek.setHours(0, 0, 0, 0)
+
+// move to Sunday
+startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay())
+
+let weeklyWorkouts = 0
+let weeklyVolume = 0
+let weeklyMinutes = 0
+
+workouts.forEach(workout => {
+  const workoutDate = new Date(workout.date)
+
+  if (workoutDate >= startOfWeek) {
+    weeklyWorkouts++
+    weeklyMinutes += workout.duration || 0
+  }
+})
+
+  sets?.forEach(set => {
+    const workoutDate = new Date(set.workouts?.date)
+
+    if (workoutDate >= startOfWeek) {
+      weeklyVolume += set.weight * set.reps
+    }
+})
+
 
   // -------------------------
   // Return everything
@@ -111,7 +142,13 @@ for (const name in exerciseCount) {
     totalWorkouts,
     totalVolume,
     mostTrained,
-    weeklyData
+    weeklyData,
+
+    weeklySummary: {
+      workouts: weeklyWorkouts,
+      volume: weeklyVolume,
+      duration: weeklyMinutes
+    }
   }
 
 }
