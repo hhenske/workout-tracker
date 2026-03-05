@@ -60,7 +60,7 @@ export default function ExerciseAnalytics({ exerciseName }) {
   }
 
   return (
-  <>
+  <div className="exercise-analytics">
 
     <ExerciseHeader
       exerciseName={exerciseName}
@@ -75,7 +75,7 @@ export default function ExerciseAnalytics({ exerciseName }) {
 
     <ExerciseHistory sets={sets} />
 
-  </>
+  </div>
 )
 
 }

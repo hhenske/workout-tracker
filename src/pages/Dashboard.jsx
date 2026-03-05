@@ -2,6 +2,7 @@ import './dashboard.css';
 import { useEffect, useState } from 'react';
 import {getDashboardStats } from '../services/workoutService';
 import { useNavigate } from 'react-router-dom';
+import DashboardHeader from '../components/DashboardHeader';
 
 
 
@@ -95,6 +96,8 @@ export default function Dashboard() {
   return (
     <div className="dashboard">
 
+      <DashboardHeader />
+      
       {/* Mobile Quote Banner */}
       <div className="quote-banner">
         <span className="quote-banner__mark">"</span>
