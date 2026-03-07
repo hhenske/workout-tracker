@@ -219,6 +219,23 @@ export default function Dashboard() {
           </div>
         </section>
 
+        <div className="stat-card stat-card--secondary">
+
+        <span className="stat-card__label label-caps">
+          Current Streak
+        </span>
+
+        <div className="stat-card__value tabular-nums">
+          🔥 {stats?.streak ?? 0}
+        </div>
+
+        <p className="stat-card__sub">
+          consecutive days
+        </p>
+
+      </div>
+
+
       </div>{/* /bento */}
     </div>
   );

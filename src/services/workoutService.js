@@ -134,6 +134,39 @@ workouts.forEach(workout => {
     }
 })
 
+// ---------- Calculate workout streak ----------
+
+let streak = 0;
+
+if (workouts && workouts.length > 0) {
+
+  const sorted = [...workouts].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
+
+  let currentDate = new Date(sorted[0].date);
+  currentDate.setHours(0,0,0,0);
+
+  for (let workout of sorted) {
+
+    const workoutDate = new Date(workout.date);
+    workoutDate.setHours(0,0,0,0);
+
+    const diff =
+      (currentDate - workoutDate) / (1000 * 60 * 60 * 24);
+
+    if (diff === 0) {
+      streak++;
+    } else if (diff === 1) {
+      streak++;
+      currentDate.setDate(currentDate.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+}
+
+
 
   // -------------------------
   // Return everything
@@ -143,7 +176,7 @@ workouts.forEach(workout => {
     totalVolume,
     mostTrained,
     weeklyData,
-
+    streak,
     weeklySummary: {
       workouts: weeklyWorkouts,
       volume: weeklyVolume,
