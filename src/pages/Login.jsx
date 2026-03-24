@@ -70,19 +70,23 @@ export default function Login() {
     setLoading(false);
   }
 
-  function handleDemoLogin() {
-    // store demo flag in localStorage
-    localStorage.setItem('demoMode', 'true');
+  async function handleDemoLogin() {
+    setLoading(true);
 
-    // optional: store a fake user object
-    localStorage.setItem('demoUser', JSON.stringify({
-      id: 'demo-user',
-      email: 'demo@workoutcoach.app',
-      isDemo: true
-    }));
+    const { error } = await supabase.auth.signInWithPassword({
+      email: "demo@demo.com",
+      password: "demopassword"
+    });
 
-    navigate('/');
-}
+    if (error) {
+      setError(error.message);
+    } else {
+      navigate('/');
+    }
+
+    setLoading(false);
+  }
+
 
   return (
     <div className="login-page">
@@ -180,7 +184,7 @@ export default function Login() {
           >
             Try Demo
           </button>
-          
+
         </div>
 
         <p className="login-card__toggle">
