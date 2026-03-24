@@ -41,6 +41,13 @@ export default function Layout() {
       {/* Main scrollable content area */}
       <main className="main-content">
 
+         {/* demo-Mode bannder */}
+        {localStorage.getItem('demoMode') === 'true' && (
+          <div className="demo-banner">
+            Demo Mode — changes won’t be saved
+          </div>
+        )}
+
         {/* Desktop top bar */}
         <div className="top-bar">
           <div className="top-bar__left">

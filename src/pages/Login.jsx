@@ -70,6 +70,20 @@ export default function Login() {
     setLoading(false);
   }
 
+  function handleDemoLogin() {
+    // store demo flag in localStorage
+    localStorage.setItem('demoMode', 'true');
+
+    // optional: store a fake user object
+    localStorage.setItem('demoUser', JSON.stringify({
+      id: 'demo-user',
+      email: 'demo@workoutcoach.app',
+      isDemo: true
+    }));
+
+    navigate('/');
+}
+
   return (
     <div className="login-page">
       <div className="login-page__circle login-page__circle--1" />
@@ -159,6 +173,14 @@ export default function Login() {
             {loading ? 'Please wait...' : isSignup ? 'Create Account' : 'Log In'}
           </button>
 
+          <button
+            className="login-card__demo"
+            onClick={handleDemoLogin}
+            disabled={loading}
+          >
+            Try Demo
+          </button>
+          
         </div>
 
         <p className="login-card__toggle">

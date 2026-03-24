@@ -2,6 +2,25 @@ import { supabase } from './supabaseClient';
 
 export async function getDashboardStats() {
 
+  const demoMode = localStorage.getItem('demoMode') === 'true';
+
+  if (demoMode) {
+    return {
+      totalWorkouts: 12,
+      totalVolume: 150000,
+      mostTrained: 'Bench Press',
+      weeklyData: [
+        { day: 'Mon', volume: 1200 },
+        { day: 'Tue', volume: 1800 },
+        { day: 'Wed', volume: 0 },
+        { day: 'Thu', volume: 2200 },
+        { day: 'Fri', volume: 2000 },
+        { day: 'Sat', volume: 1500 },
+        { day: 'Sun', volume: 900 }
+      ]
+    };
+  }
+
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
@@ -16,15 +35,41 @@ export async function getDashboardStats() {
   // -------------------------
   // 1. Get workouts
   // -------------------------
-  const { data: workouts, error: workoutError } = await supabase
-    .from('workouts')
-    .select('*')
-    .eq('user_id', user.id)
 
-  if (workoutError) {
-    console.error(workoutError)
-    return null
-  }
+
+    let workouts;
+
+    if (demoMode) {
+      workouts = [
+        {
+          id: 1,
+          name: 'Push Day',
+          date: '2026-03-20'
+        },
+        {
+          id: 2,
+          name: 'Pull Day',
+          date: '2026-03-21'
+        },
+        {
+          id: 3,
+          name: 'Leg Day',
+          date: '2026-03-22'
+        }
+      ];
+    } else {
+      const { data, error: workoutError } = await supabase
+        .from('workouts')
+        .select('*')
+        .eq('user_id', user.id);
+
+      if (workoutError) {
+        console.error(workoutError);
+        return null;
+      }
+
+      workouts = data;
+    }
 
   // -------------------------
 // 2. Get sets (for volume + most trained)
