@@ -72,6 +72,7 @@ export default function Login() {
 
   async function handleDemoLogin() {
     setLoading(true);
+    
 
     const { error } = await supabase.auth.signInWithPassword({
       email: "demo@demo.com",
@@ -81,6 +82,8 @@ export default function Login() {
     if (error) {
       setError(error.message);
     } else {
+      localStorage.setItem('demoMode', 'true') ||
+      user?.email === 'demo@demo.com';
       navigate('/');
     }
 

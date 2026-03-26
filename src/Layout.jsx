@@ -22,6 +22,7 @@ function getGreeting() {
 
 export default function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  
 
   return (
     <div className="app-shell">
