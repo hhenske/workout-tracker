@@ -134,6 +134,23 @@
   margin-bottom: var(--space-5);
 }
 
+.login-card__demo {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-md);
+}
+
+.demo-banner {
+  background: #008d97;
+  color: var(--color-primary-light);
+  border-bottom: 2px groove blue;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+
 /* ---- Form Fields ---- */
 
 .form-field {
@@ -253,3 +270,4 @@
   color: var(--color-text-muted);
   font-family: var(--font-sans);
 }
+
