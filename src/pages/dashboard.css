@@ -383,11 +383,11 @@
 
 /* Green accent card */
 .stat-card--green {
-  border-top: 3px solid var(--color-secondary);
+  border-top: 3px solid #008d97;
 }
 
 .stat-card--green .stat-card__value--exercise {
-  color: var(--color-secondary-dark);
+  color: #008d97;
 }
 
 /* Log Workout CTA card */
@@ -419,7 +419,7 @@
 .stat-card__cta-icon {
   width: 28px;
   height: 28px;
-  color: var(--color-secondary);
+  color: #008d97;
   flex-shrink: 0;
 }
 
