@@ -1,6 +1,9 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { supabase } from './services/supabaseClient';
+import { quotes } from './data/quotes';
+
 
 import Header from './components/Header';
 import SideNav from './components/SideNav';
@@ -10,6 +13,7 @@ import LogWorkout from './pages/LogWorkout';
 import Workouts from './pages/Workouts';
 import Exercises from './pages/Exercises';
 import Progress from './pages/Progress';
+
 
 
 function getGreeting() {
@@ -22,7 +26,40 @@ function getGreeting() {
 
 export default function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  
+  const [userName, setUserName] = useState('');
+  const [quote, setQuote] = useState('');
+
+  useEffect(() => {
+    async function fetchUser() {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        // Try to get name from metadata first
+        const name =
+          user.user_metadata?.name ||
+          user.email?.split('@')[0];
+
+        setUserName(name);
+      }
+
+      // Demo fallback
+      if (localStorage.getItem('demoMode') === 'true') {
+        setUserName('Friend');
+      }
+    }
+
+    fetchUser();
+  }, []);
+ 
+
+
+  useEffect(() => {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  setQuote(quotes[randomIndex]);
+}, []);
+
 
   return (
     <div className="app-shell">
@@ -53,10 +90,10 @@ export default function Layout() {
         <div className="top-bar">
           <div className="top-bar__left">
             <span className="top-bar__greeting">Your Progress</span>
-            <span className="top-bar__title">{getGreeting()} 👋</span>
+            <span className="top-bar__title">{getGreeting()}, {userName} 👋</span>
           </div>
           <p className="top-bar__quote">
-            "The only bad workout is the one that didn't happen."
+            "{quote}"
           </p>
         </div>
       

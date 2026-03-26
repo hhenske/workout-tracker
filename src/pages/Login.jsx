@@ -30,7 +30,7 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     clearMessages();
-
+    
     if (!email || !password) {
       setError('Email and password are required.');
       return;
