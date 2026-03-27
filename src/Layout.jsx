@@ -13,6 +13,7 @@ import LogWorkout from './pages/LogWorkout';
 import Workouts from './pages/Workouts';
 import Exercises from './pages/Exercises';
 import Progress from './pages/Progress';
+import Settings from './pages/Settings';
 
 
 
@@ -115,6 +116,8 @@ export default function Layout() {
           <Route path="/workouts" element={<Workouts />} />
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/progress" element={<Progress />} />
+          <Route path="/settings" element={<Settings />} />
+
         
         </Routes>
 

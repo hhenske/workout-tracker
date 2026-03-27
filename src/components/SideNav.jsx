@@ -42,7 +42,8 @@ export default function SideNav() {
       </ul>
 
       <div className="side-nav__footer">
-        <div className="side-nav__item">
+        <div className="side-nav__item"
+        onClick={() => navigate('/settings')}>
           <span className="side-nav__icon">⚙️</span>
           Settings
         </div>

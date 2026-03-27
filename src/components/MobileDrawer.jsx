@@ -84,7 +84,8 @@ export default function MobileDrawer({ isOpen, onClose }) {
         </ul>
 
         <div className="drawer__footer">
-          <div className="drawer__item" onClick={onClose}>
+          <div className="drawer__item" 
+          onClick={() => handleNavClick('/settings')}>
             <span className="drawer__icon">⚙️</span>
             Settings
           </div>
