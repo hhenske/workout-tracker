@@ -59,15 +59,18 @@ export default function Login() {
         setConfirm('');
       }
     } else {
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) {
-        setError(signInError.message);
-      } else {
-        navigate('/');
+        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+
+        if (signInError) {
+          setError(signInError.message);
+        } else {
+          localStorage.removeItem('demoMode'); // ✅ clear demo mode
+          navigate('/');
+        }
       }
-    }
 
     setLoading(false);
+    
   }
 
   async function handleDemoLogin() {
