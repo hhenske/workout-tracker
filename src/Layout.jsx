@@ -29,7 +29,7 @@ export default function Layout() {
   const [userName, setUserName] = useState('');
   const [quote, setQuote] = useState('');
 
-  useEffect(() => {
+    useEffect(() => {
     async function fetchUser() {
       const {
         data: { user }
@@ -43,17 +43,15 @@ export default function Layout() {
 
         setUserName(name);
       }
-
-      // Demo fallback
-      if (localStorage.getItem('demoMode') === 'true') {
-        setUserName('Friend');
-      }
     }
 
     fetchUser();
   }, []);
- 
 
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    setQuote(quotes[randomIndex]);
+  }, []);
 
   useEffect(() => {
   const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -81,10 +79,22 @@ export default function Layout() {
 
          {/* demo-Mode banner */}
         {localStorage.getItem('demoMode') === 'true' && (
-          <div className="demo-banner">
-            Demo Mode — changes won’t be saved
-          </div>
-        )}
+  <div className="demo-banner">
+    <span>Demo Mode — changes won’t be saved</span>
+
+    <button
+      className="exit-demo-btn"
+      onClick={async () => {
+        localStorage.removeItem('demoMode');
+        await supabase.auth.signOut(); // logs out demo user
+        window.location.href = '/login'; // force clean reset
+      }}
+    >
+        Exit Demo
+      </button>
+    </div>
+  )}
+
 
         {/* Desktop top bar */}
         <div className="top-bar">
