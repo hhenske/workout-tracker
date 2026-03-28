@@ -11,8 +11,14 @@ import navItems from '../navItems';
 //   onClose — callback to close the drawer
 
 export default function MobileDrawer({ isOpen, onClose }) {
+
+  const mainNavItems = navItems.filter(item => item.path !== '/settings');
+  const settingsItem = navItems.find(item => item.path === '/settings');
+
+  
   const location = useLocation();
   const navigate = useNavigate();
+
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -47,6 +53,7 @@ export default function MobileDrawer({ isOpen, onClose }) {
         aria-hidden="true"
       />
 
+      
       {/* Drawer Panel */}
       <nav
         className={`drawer${isOpen ? ' is-open' : ''}`}
@@ -71,7 +78,7 @@ export default function MobileDrawer({ isOpen, onClose }) {
         <span className="drawer__section-label label-caps">Menu</span>
 
         <ul className="drawer__items">
-          {navItems.map((item) => (
+          {mainNavItems.map((item) => (
             <li
               key={item.label}
               className={`drawer__item${location.pathname === item.path ? ' active' : ''}`}
@@ -81,9 +88,25 @@ export default function MobileDrawer({ isOpen, onClose }) {
               {item.label}
             </li>
           ))}
+
         </ul>
 
         <div className="drawer__footer">
+
+          {settingsItem && (
+            <div
+              className={`drawer__item${location.pathname === settingsItem.path ? ' active' : ''}`}
+              onClick={() => handleNavClick(settingsItem.path)}
+            >
+              <span className="drawer__icon">
+                <settingsItem.icon />
+              </span>
+              {settingsItem.label}
+            </div>
+          )}
+
+
+
           <button className="drawer__logout" onClick={handleLogout}>
             <span className="drawer__icon">🚪</span>
             Log Out

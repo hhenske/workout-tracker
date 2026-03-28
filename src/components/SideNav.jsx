@@ -16,6 +16,9 @@ export default function SideNav() {
     navigate('/login');
   }
 
+  const mainNavItems = navItems.filter(item => item.path !== '/settings');
+  const settingsItem = navItems.find(item => item.path === '/settings');
+
   return (
     <nav className="side-nav">
       <div className="side-nav__logo">
@@ -29,7 +32,7 @@ export default function SideNav() {
       <span className="side-nav__section-label label-caps">Menu</span>
 
       <ul className="side-nav__items">
-        {navItems.map((item) => (
+        {mainNavItems.map((item) => (
           <li
             key={item.label}
             className={`side-nav__item${location.pathname === item.path ? ' active' : ''}`}
@@ -43,6 +46,19 @@ export default function SideNav() {
 
       <div className="side-nav__footer">
         
+        {settingsItem && (
+          <div
+            className={`side-nav__item${location.pathname === settingsItem.path ? ' active' : ''}`}
+            onClick={() => navigate(settingsItem.path)}
+          >
+            <span className="side-nav__icon">
+              <settingsItem.icon />
+            </span>
+            {settingsItem.label}
+          </div>
+        )}
+
+
         <button className="side-nav__logout" onClick={handleLogout}>
           <span className="side-nav__icon">🚪</span>
           Log Out
