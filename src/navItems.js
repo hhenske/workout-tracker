@@ -6,7 +6,8 @@ import {
     ClipboardDocumentListIcon,
     ChartBarIcon,
     FireIcon,
-    PlusCircleIcon
+    PlusCircleIcon,
+    SettingsIcon,
  } from '@heroicons/react/24/outline';
 
 
@@ -17,6 +18,7 @@ const navItems = [
   { icon: PlusCircleIcon, label: 'Log Workout', path: '/log' },
   { icon: ChartBarIcon, label: 'Progress', path: '/progress' },
   { icon: FireIcon, label: 'Exercises', path: '/exercises' },
+  { icon: SettingsIcon, label: 'Settings', path: '/settings' },
 ]
 
 export default navItems;

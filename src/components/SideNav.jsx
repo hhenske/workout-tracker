@@ -42,11 +42,7 @@ export default function SideNav() {
       </ul>
 
       <div className="side-nav__footer">
-        <div className="side-nav__item"
-        onClick={() => navigate('/settings')}>
-          <span className="side-nav__icon">⚙️</span>
-          Settings
-        </div>
+        
         <button className="side-nav__logout" onClick={handleLogout}>
           <span className="side-nav__icon">🚪</span>
           Log Out
