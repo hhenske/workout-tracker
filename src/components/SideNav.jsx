@@ -3,6 +3,7 @@ import './SideNav.css';
 import logo from '../assets/logo-wc.png';
 import navItems from '../navItems';
 import { supabase } from '../services/supabaseClient';
+import NavItem from './NavItem';
 
 // SideNav — fixed left sidebar, visible on desktop only.
 // Hidden on mobile via CSS.
@@ -31,31 +32,26 @@ export default function SideNav() {
 
       <span className="side-nav__section-label label-caps">Menu</span>
 
-      <ul className="side-nav__items">
-        {mainNavItems.map((item) => (
-          <li
-            key={item.label}
-            className={`side-nav__item${location.pathname === item.path ? ' active' : ''}`}
-            onClick={() => navigate(item.path)}
-          >
-            <span className="side-nav__icon"><item.icon /></span>
-            {item.label}
-          </li>
-        ))}
-      </ul>
+     <ul className="side-nav__items">
+      {mainNavItems.map((item) => (
+        <NavItem
+          key={item.label}
+          item={item}
+          className="side-nav__item"
+          iconClass="side-nav__icon"
+        />
+      ))}
+    </ul>
+
 
       <div className="side-nav__footer">
         
         {settingsItem && (
-          <div
-            className={`side-nav__item${location.pathname === settingsItem.path ? ' active' : ''}`}
-            onClick={() => navigate(settingsItem.path)}
-          >
-            <span className="side-nav__icon">
-              <settingsItem.icon />
-            </span>
-            {settingsItem.label}
-          </div>
+          <NavItem
+            item={settingsItem}
+            className="side-nav__item"
+            iconClass="side-nav__icon"
+          />
         )}
 
 

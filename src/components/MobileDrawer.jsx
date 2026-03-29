@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './MobileDrawer.css';
 import logo from '../assets/logo-wc.png';
 import navItems from '../navItems';
+import NavItem from './NavItem';
 
 // MobileDrawer — slides in from the left on mobile.
 // Hidden on desktop via CSS.
@@ -79,31 +80,28 @@ export default function MobileDrawer({ isOpen, onClose }) {
 
         <ul className="drawer__items">
           {mainNavItems.map((item) => (
-            <li
+            <NavItem
               key={item.label}
-              className={`drawer__item${location.pathname === item.path ? ' active' : ''}`}
-              onClick={() => handleNavClick(item.path)}
-            >
-              <span className="drawer__icon"><item.icon /></span>
-              {item.label}
-            </li>
+              item={item}
+              onClickExtra={onClose}
+              className="drawer__item"
+              iconClass="drawer__icon"
+            />
           ))}
-
         </ul>
+
 
         <div className="drawer__footer">
 
           {settingsItem && (
-            <div
-              className={`drawer__item${location.pathname === settingsItem.path ? ' active' : ''}`}
-              onClick={() => handleNavClick(settingsItem.path)}
-            >
-              <span className="drawer__icon">
-                <settingsItem.icon />
-              </span>
-              {settingsItem.label}
-            </div>
+            <NavItem
+              item={settingsItem}
+              onClickExtra={onClose}
+              className="drawer__item"
+              iconClass="drawer__icon"
+            />
           )}
+
 
 
 
