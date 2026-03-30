@@ -27,6 +27,7 @@ export default function LogWorkout() {
         ...workout.exercises,
         {
           name: '',
+          type: 'strength',
           sets: [{ weight: '', reps: '' }]
         }
       ]
@@ -46,7 +47,7 @@ export default function LogWorkout() {
   function addSet(exerciseIndex) {
     const updated = [...workout.exercises];
 
-    updated[exerciseIndex].sets.push({
+    updated[index].sets.push({
       weight: '',
       reps: ''
     });
@@ -57,10 +58,20 @@ export default function LogWorkout() {
     });
   }
 
-  function updateSet(exerciseIndex, setIndex, field, value) {
+  function updateExerciseField(index, field, value) {
+    const updated = [...workout.exercises];
+    updated[index][field] = value;
+
+    setWorkout({
+      ...workout,
+      exercises: updated
+    });
+  }
+
+  function updateSet(index, setIndex, field, value) {
     const updated = [...workout.exercises];
 
-    updated[exerciseIndex].sets[setIndex][field] = value;
+    updated[index].sets[setIndex][field] = value;
 
     setWorkout({
       ...workout,
@@ -126,7 +137,9 @@ export default function LogWorkout() {
         const { data: newExercise, error } =
           await supabase
             .from('exercises')
-            .insert({ name: exercise.name })
+            .insert({ 
+              name: exercise.name,
+              type: exercise.type})
             .select()
             .single();
 
@@ -193,6 +206,16 @@ export default function LogWorkout() {
     if (!error) {
         setExerciseList(data)
     }
+  }
+
+  function handleExerciseChange(index, field, value) {
+    const updated = [...workout.exercises];
+    updated[index][field] = value;
+
+    setWorkout({
+      ...workout,
+      exercises: updated
+    });
   }
 
   useEffect(() => {
@@ -273,80 +296,103 @@ export default function LogWorkout() {
 
             <div className="autocomplete">
 
-                <input
-                    type="text"
-                    placeholder="Exercise name"
-                    value={exercise.name}
-                    onChange={(e) => {
-                    updateExerciseName(exerciseIndex, e.target.value)
-                    setExerciseInput(e.target.value)
-                    setShowSuggestions(true)
-                    }}
-                />
+              {/* Exercise Name Input */}
+              <input
+                type="text"
+                placeholder="Exercise name"
+                value={exercise.name}
+                onChange={(e) => {
+                  handleExerciseChange(exerciseIndex, 'name', e.target.value);
+                  setExerciseInput(e.target.value);
+                  setShowSuggestions(true);
+                }}
+              />
 
-                {showSuggestions && exercise.name && filteredExercises.length > 0 && (
-                    <div className="autocomplete-list">
+              {/* ✅ Radio Buttons (FIXED) */}
+              <div className="exercise-type">
+                <label>
+                  <input
+                    type="radio"
+                    name={`type-${exerciseIndex}`}
+                    value="strength"
+                    checked={exercise.type === 'strength'}
+                    onChange={(e) =>
+                      handleExerciseChange(exerciseIndex, 'type', e.target.value)
+                    }
+                  />
+                  Strength
+                </label>
 
-                    {filteredExercises.slice(0, 5).map(ex => (
+                <label>
+                  <input
+                    type="radio"
+                    name={`type-${exerciseIndex}`}
+                    value="cardio"
+                    checked={exercise.type === 'cardio'}
+                    onChange={(e) =>
+                      handleExerciseChange(exerciseIndex, 'type', e.target.value)
+                    }
+                  />
+                  Cardio
+                </label>
+              </div>
 
-                        <div
-                        key={ex.id}
-                        className="autocomplete-item"
-                        onClick={() => {
-                            updateExerciseName(exerciseIndex, ex.name)
-                            setExerciseInput(ex.name)
-                            setShowSuggestions(false)
-                        }}
-                        >
-                        {ex.name}
-                        </div>
-
-                    ))}
-
+              {/* ✅ Autocomplete Dropdown (FIXED) */}
+              {showSuggestions && exercise.name && filteredExercises.length > 0 && (
+                <div className="autocomplete-list">
+                  {filteredExercises.slice(0, 5).map(ex => (
+                    <div
+                      key={ex.id}
+                      className="autocomplete-item"
+                      onClick={() => {
+                        handleExerciseChange(exerciseIndex, 'name', ex.name);
+                        setExerciseInput(ex.name);
+                        setShowSuggestions(false);
+                      }}
+                    >
+                      {ex.name}
                     </div>
-                )}
+                  ))}
+                </div>
+              )}
 
             </div>
 
+            {/* Sets */}
+            {exercise.sets.map((set, setIndex) => (
+              <div key={setIndex} className="set-row">
 
+                <input
+                  type="number"
+                  placeholder="Weight"
+                  value={set.weight}
+                  onChange={(e) =>
+                    updateSet(
+                      exerciseIndex,
+                      setIndex,
+                      'weight',
+                      e.target.value
+                    )
+                  }
+                />
 
+                <input
+                  type="number"
+                  placeholder="Reps"
+                  value={set.reps}
+                  onChange={(e) =>
+                    updateSet(
+                      exerciseIndex,
+                      setIndex,
+                      'reps',
+                      e.target.value
+                    )
+                  }
+                />
 
-                {exercise.sets.map((set, setIndex) => (
+              </div>
+            ))}
 
-                <div key={setIndex} className="set-row">
-
-                    <input
-                    type="number"
-                    placeholder="Weight"
-                    value={set.weight}
-                    onChange={(e) =>
-                        updateSet(
-                        exerciseIndex,
-                        setIndex,
-                        'weight',
-                        e.target.value
-                        )
-                    }
-                    />
-
-                    <input
-                    type="number"
-                    placeholder="Reps"
-                    value={set.reps}
-                    onChange={(e) =>
-                        updateSet(
-                        exerciseIndex,
-                        setIndex,
-                        'reps',
-                        e.target.value
-                        )
-                    }
-                    />
-
-                </div>
-
-                ))}
-            
             <button
               type="button"
               className="secondary-btn"

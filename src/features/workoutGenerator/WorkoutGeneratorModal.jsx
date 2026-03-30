@@ -184,6 +184,7 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
                     </div>
                   )}
 
+
                   <button onClick={() => {
                     localStorage.setItem('generatedWorkout', JSON.stringify(result));
                     navigate('/log');
