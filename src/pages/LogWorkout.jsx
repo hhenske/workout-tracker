@@ -5,6 +5,7 @@ import { detectWorkoutType } from '../utils/detectWorkoutType';
 import exercises from '../data/exercises';
 
 
+
 export default function LogWorkout() {
 
   const [workout, setWorkout] = useState({

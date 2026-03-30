@@ -42,6 +42,7 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
   function handleGenerate(finalOptions) {
     const workout = generateWorkout(finalOptions);
     setResult(workout);
+    setType(finalOptions.type);
     setStep('result');
   }
 
@@ -105,18 +106,18 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
                 </motion.div>
               )}
 
-              {/* STEP 4 */}
+                            {/* STEP 4 */}
               {step === 'result' && (
                 <motion.div key="result" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                   <h2>Your Workout</h2>
 
-                  {type === 'strength' && result?.map((ex, i) => (
+                  {type === 'strength' && Array.isArray(result) && result.map((ex, i) => (
                     <div key={i}>
                       {ex.name} — {ex.sets} x {ex.reps}
                     </div>
                   ))}
 
-                  {type === 'cardio' && (
+                  {type === 'cardio' && result && (
                     <div>
                       <p>{result.activity}</p>
                       <p>{result.description}</p>
@@ -125,7 +126,7 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
 
                   <button onClick={() => {
                     localStorage.setItem('generatedWorkout', JSON.stringify(result));
-                    window.location.href = '/log'; // or navigate()
+                    navigate('/log');
                   }}>
                     Start This Workout
                   </button>
