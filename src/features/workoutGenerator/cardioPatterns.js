@@ -1,0 +1,22 @@
+export const cardioPatterns = [
+  { name: 'Steady', description: '20 minutes at a steady pace' },
+  { name: 'Steady', description: '25 minutes at a steady pace' },
+  { name: 'Steady', description: '30 minutes at a steady pace' },
+  { name: 'Steady', description: '40 minutes at a steady pace' },
+  { name: 'Steady', description: '50 minutes at a steady pace' },
+  { name: 'Steady', description: '60 minutes at a steady pace' },
+  { name: 'Hi-Lo Intervals', description: '1 min fast, 1 min slow (x10)' },
+  { name: 'Hi-Lo Intervals', description: '2 min fast, 2 min slow (x6)' },
+  { name: 'Pyramid', description: '1-2-3-4-3-2-1 min intervals' },
+  { name: 'Hi-Lo Intervals', description: '30 sec fast, 30 sec slow (x20)' },
+  { name: 'Fartlek', description: 'Random bursts of speed for 20 minutes' },
+  { name: 'Hill Sprints', description: '30 sec sprint uphill, walk down (x10)' },
+  { name: 'Tempo Run', description: '10 min easy, 10 min hard, 10 min easy' },
+  { name: 'On-Off Intervals', description: '1 min on, 2 min off (x8)' },
+  { name: 'On-Off Intervals', description: '2 min on, 2 min off (x6)' },
+  { name: 'On-Off Intervals', description: '3 min on, 2 min off (x6)' },
+  { name: 'On-Off Intervals', description: '4 min on, 2 min off (x8)' },
+  { name: 'On-Off Intervals', description: '5 min on, 2 min off (x4)' },
+  { name: 'Pyramid', description: '90% effort-75%-50%-75%-90% effort intervals (same distance)' },
+];
+

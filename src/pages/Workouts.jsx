@@ -157,6 +157,10 @@ export default function Workouts() {
                 <div className="workout-summary__meta">
                   <span>{formatDate(workout.date)}</span>
                   <span>{workout.duration} min</span>
+                  <span className="workout-type">
+                    {workout.type === 'cardio' ? '🏃 Cardio' : '🏋️ Strength'}
+                  </span>
+
                 </div>
 
               </div>

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import {getDashboardStats } from '../services/workoutService';
 import { useNavigate } from 'react-router-dom';
 import DashboardHeader from '../components/DashboardHeader';
+import WorkoutGeneratorModal from '../features/workoutGenerator/WorkoutGeneratorModal';
+import { supabase } from '../services/supabaseClient';
 
 
 
@@ -68,6 +70,10 @@ function WeeklyBarChart({ data = [] }) {
 // --- Dashboard Page ---
 export default function Dashboard() {
 
+  const [showGenerator, setShowGenerator] = useState(false);
+  const [workouts, setWorkouts] = useState([]);
+
+
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalWorkouts: 0,
@@ -87,6 +93,30 @@ export default function Dashboard() {
     return `${hrs}h ${mins}m`
   }
 
+  useEffect(() => {
+    fetchWorkouts();
+  }, []);
+
+  async function fetchWorkouts() {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from('workouts')
+      .select('id, date, duration, type') // keep it LIGHT
+      .eq('user_id', user.id);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setWorkouts(data || []);
+}
+
 
   useEffect(() => {
     async function loadStats() {
@@ -101,6 +131,8 @@ export default function Dashboard() {
     if (loading) {
     return <div className="page">Loading dashboard...</div>
     }
+
+  console.log(workouts);
 
   return (
     <div className="dashboard">
@@ -139,6 +171,20 @@ export default function Dashboard() {
         </span>
 
       </div>
+
+      <button onClick={() => setShowGenerator(true)}>
+        Generate Workout
+      </button>
+
+      
+
+      <WorkoutGeneratorModal
+        isOpen={showGenerator}
+        onClose={() => setShowGenerator(false)}
+        workouts={workouts}
+      />
+
+
     </div>
 
       {/* Bento grid (desktop) / normal stacked flow (mobile) */}

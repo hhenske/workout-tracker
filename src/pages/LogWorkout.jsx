@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../services/supabaseClient';
 import './logWorkout.css';
-// import exercisesList from '../data/exercises';
+import { detectWorkoutType } from '../utils/detectWorkoutType';
+import exercises from '../data/exercises';
 
 
 export default function LogWorkout() {
@@ -66,21 +67,23 @@ export default function LogWorkout() {
   }
 
   async function handleSaveWorkout(e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
+    const workoutType = detectWorkoutType(exercises);
 
-    // ✅ Get logged in user
-    const {
-      data: { user },
-      error: userError
-    } = await supabase.auth.getUser();
+    try {
 
-    if (userError || !user) {
-      console.error('Error getting user:', userError);
-      alert('You must be logged in');
-      return;
-    }
+      // ✅ Get logged in user
+      const {
+        data: { user },
+        error: userError
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        console.error('Error getting user:', userError);
+        alert('You must be logged in');
+        return;
+      }
 
 
     // ✅ 1. Insert workout WITH user_id
@@ -91,7 +94,8 @@ export default function LogWorkout() {
           user_id: user.id,     // ⭐ THIS FIXES YOUR PROBLEM
           date: workout.date,
           duration: Number(workout.duration),
-          notes: workout.notes
+          notes: workout.notes,
+          type: workoutType
         })
         .select()
         .single();
@@ -206,6 +210,17 @@ export default function LogWorkout() {
         )
     )
 
+    useEffect(() => {
+      const saved = localStorage.getItem('generatedWorkout');
+
+      if (saved) {
+        const parsed = JSON.parse(saved);
+
+        setExercises(parsed); // or however you store them
+
+        localStorage.removeItem('generatedWorkout');
+      }
+    }, []);
 
 
 
