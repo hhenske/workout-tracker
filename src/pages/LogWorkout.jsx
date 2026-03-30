@@ -18,6 +18,7 @@ export default function LogWorkout() {
   const [exerciseInput, setExerciseInput] = useState('')
   const [exerciseList, setExerciseList] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const [Exercises, setExercises] = useState([]);
 
   function addExercise() {
     setWorkout({

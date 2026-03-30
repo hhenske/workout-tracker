@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { generateWorkout } from './generateWorkout';
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
   const [step, setStep] = useState('suggestion');
   const [type, setType] = useState(null);
   const [options, setOptions] = useState({});
   const [result, setResult] = useState(null);
+  const [exercises, setExercises] = useState([]);
+
+  const navigate = useNavigate();
 
   function getLeastTrained() {
     if (!Array.isArray(workouts)) return 'strength'; // safe fallback
@@ -46,6 +53,52 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
     setStep('result');
   }
 
+  useEffect(() => {
+    const saved = localStorage.getItem('generatedWorkout');
+
+    if (!saved) return;
+
+    const parsed = JSON.parse(saved);
+
+    // 🧠 Transform into your form shape
+    let formatted = [];
+
+    // 🏋️ Strength workout
+    if (Array.isArray(parsed)) {
+      formatted = parsed.map(ex => ({
+        name: ex.name,
+        sets: Array.from({ length: ex.sets }).map(() => ({
+          weight: '',
+          reps: ex.reps || ''
+        }))
+      }));
+    }
+
+    // 🏃 Cardio workout
+    else if (parsed?.activity) {
+      formatted = [
+        {
+          name: parsed.activity,
+          sets: [
+            {
+              weight: '',
+              reps: parsed.description // use reps field for now
+            }
+          ]
+        }
+      ];
+    }
+
+    setExercises(formatted);
+    setTimeout(() => {
+      document.querySelector('input')?.focus();
+    }, 100);
+
+    // clean up so it doesn't reload every time
+    localStorage.removeItem('generatedWorkout');
+
+  }, []);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -56,6 +109,13 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
+
+            {exercises.length > 0 && (
+              <div className="prefill-banner">
+                Workout generated for you - Adject as needed
+              </div>
+            )}
+
             <AnimatePresence mode="wait">
               
               {/* STEP 1 */}
@@ -127,6 +187,7 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
                   <button onClick={() => {
                     localStorage.setItem('generatedWorkout', JSON.stringify(result));
                     navigate('/log');
+                   
                   }}>
                     Start This Workout
                   </button>
