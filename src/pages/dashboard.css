@@ -479,6 +479,11 @@
   font-weight: var(--font-regular);
 }
 
+.shrink {
+  max-width: 100px;
+  height:20
+}
+
 /* ============================================
    CHART SECTION
    ============================================ */
@@ -634,6 +639,122 @@
   color: var(--color-text-muted);
 }
 
+/* ============================================
+   GENERATE WORKOUT BUTTON (SUBTLE CTA)
+   ============================================ */
+
+.dashboard-week__action {
+  display: flex;
+  align-items: center;
+}
+
+/* === BUTTON STYLE === */
+.dashboard-week__action .modal-btn {
+  font-size: var(--text-sm);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+
+  /* 👇 subtle look instead of bold primary */
+  background: var(--color-surface);
+  color: var(--color-primary);
+
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+
+  transition: all var(--duration-fast) var(--ease-default);
+}
+
+/* Hover — slight lift but still subtle */
+.dashboard-week__action .modal-btn:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+/* Active */
+.dashboard-week__action .modal-btn:active {
+  transform: scale(0.97);
+}
+
+/* ============================================
+   GENERATE WORKOUT BUTTON
+   ============================================ */
+
+.generate-btn {
+  font-size: var(--text-xs);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+ 
+  background: var(--color-surface);
+  color: var(--color-primary);
+
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+  font-weight: var(--font-normal);
+  transition: all var(--duration-fast) var(--ease-default);
+}
+
+/* Hover */
+.generate-btn:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+  
+}
+
+/* Active */
+.generate-btn:active {
+  transform: scale(0.97);
+}
+
+
+/* ============================================
+   DESKTOP — RIGHT ALIGN
+   ============================================ */
+
+@media (min-width: 640px) {
+  .dashboard-week {
+    align-items: center;
+  }
+
+  .dashboard-week__action {
+    margin-left: auto; /* 👈 pushes to right */
+  }
+}
+
+/* ============================================
+   MOBILE — STACKED / FULL WIDTH
+   ============================================ */
+
+@media (max-width: 639px) {
+  .dashboard-week {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  .dashboard-week__action {
+    width: 100%;
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .dashboard-week__action .generate-btn {
+    width: 100%;
+  }
+
+
+  .dashboard-week__action .modal-btn {
+    width: 100%; /* 👈 full width */
+    justify-content: center;
+  }
+
+  .dashboard-week__action .modal-btn::before {
+  content: "✨ ";
+}
+}
+
+
 @media (min-width: 640px) {
   .stats {
     display: grid;
@@ -652,7 +773,11 @@
   .chart__bars {
     height: 160px;
   }
+
+  
 }
+
+
 
 /* ============================================
    APP SHELL — DESKTOP (1024px+)
@@ -691,11 +816,24 @@
   margin-bottom: var(--space-6);
   display: flex;
   flex-direction: row;
+  /* justify-content: space-between; */
   gap: var(--space-10);
   background: var(--color-primary-light);
   padding: var(--space-2);
   border-radius: var(--radius-md);
 }
+
+
+.primary-btn {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-semibold);
+  box-shadow: var(--shadow-primary);
+}
+
 
 .dashboard-week__label {
   display: block;
@@ -716,6 +854,7 @@
 .dashboard-week__stats strong {
   font-weight: var(--font-semibold);
 }
+
 
   /* ---- Side Navigation ---- */
   .side-nav {
@@ -966,5 +1105,56 @@
 
   .stat-card--hero:hover {
     box-shadow: var(--shadow-primary), var(--shadow-lg);
+  }
+}
+
+/* ============================================
+   GENERATE BUTTON FIX (OVERRIDE ONLY)
+   ============================================ */
+
+/* Remove primary styling effect */
+.generate-btn {
+  background: var(--color-surface) !important;
+  color: var(--color-primary) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: none !important;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+}
+
+/* Hover */
+.generate-btn:hover {
+  background: var(--color-primary-light) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* ============================================
+   SPACING FIX (THIS is what you're missing)
+   ============================================ */
+
+/* Add REAL separation below the whole section */
+.dashboard-week {
+  margin-bottom: var(--space-6);
+}
+
+/* ============================================
+   MOBILE FIX (non-destructive)
+   ============================================ */
+
+@media (max-width: 639px) {
+
+  .dashboard-week {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .dashboard-week__action {
+    width: 100%;
+    margin-top: var(--space-3);
+  }
+
+  .generate-btn {
+    width: 100%;
+    font-size: var(--text-xs);
   }
 }

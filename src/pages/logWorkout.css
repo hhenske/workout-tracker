@@ -97,6 +97,58 @@ textarea {
   flex: 1;
 }
 
+/* ============================================
+   EXERCISE TYPE (RADIO BUTTONS)
+   ============================================ */
+
+.exercise-type {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.exercise-type label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* Hide default radio */
+.exercise-type input[type="radio"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  display: inline-block;
+  position: relative;
+  transition: all var(--duration-fast) var(--ease-default);
+}
+
+/* Checked state */
+.exercise-type input[type="radio"]:checked {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+}
+
+/* Inner dot */
+.exercise-type input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Hover */
+.exercise-type input[type="radio"]:hover {
+  border-color: var(--color-primary);
+}
+
 
 @media (min-width: 640px) {
   .form-actions {

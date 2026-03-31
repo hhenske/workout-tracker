@@ -1,0 +1,135 @@
+/* ============================================
+   WORKOUT GENERATOR MODAL
+   Refactored with class-based buttons
+   ============================================ */
+
+/* === BACKDROP === */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  backdrop-filter: blur(4px);
+}
+
+/* === MODAL CONTAINER === */
+.modal {
+  width: 100%;
+  max-width: 420px;
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  animation: modalSlideUp var(--duration-slow) var(--ease-out);
+}
+
+/* === TITLE === */
+.modal h2 {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* === PREFILL BANNER === */
+.prefill-banner {
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+
+/* ============================================
+   BUTTON BASE (shared)
+   ============================================ */
+
+.modal-btn {
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-default);
+}
+
+/* === PRIMARY BUTTON === */
+.modal-btn.primary-btn {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-primary);
+}
+
+.modal-btn.primary-btn:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+
+.modal-btn.primary-btn:active {
+  transform: scale(0.97);
+}
+
+/* === SECONDARY BUTTON === */
+.modal-btn.secondary-btn {
+  background: var(--color-surface-2);
+  color: var(--color-text);
+}
+
+.modal-btn.secondary-btn:hover {
+  background: var(--color-border);
+}
+
+/* === GHOST / TEXT BUTTON (Close, Try Again, etc.) */
+.modal-btn.ghost-btn {
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.modal-btn.ghost-btn:hover {
+  color: var(--color-text);
+}
+
+.modal button {
+  margin-top: var(--space-2);
+}
+
+/* ============================================
+   RESULT LIST
+   ============================================ */
+
+.result-item {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

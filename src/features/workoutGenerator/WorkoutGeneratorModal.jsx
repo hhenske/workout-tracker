@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { generateWorkout } from './generateWorkout';
 import { useNavigate } from 'react-router-dom';
+import './WorkoutGeneratorModal.css';
 
 
 
@@ -122,8 +123,16 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
               {step === 'suggestion' && (
                 <motion.div key="suggestion" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                   <h2>We recommend a {getLeastTrained()} workout</h2>
-                  <button onClick={handleAccept}>Accept</button>
-                  <button onClick={handleReject}>Choose myself</button>
+                  <button 
+                    className="modal-btn primary-btn"
+                    onClick={handleAccept}>
+                      Accept
+                    </button>
+                  <button 
+                    className="modal-btn secondary-btn"
+                    onClick={handleReject}>
+                      Choose myself
+                    </button>
                 </motion.div>
               )}
 
@@ -131,10 +140,14 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
               {step === 'choice' && (
                 <motion.div key="choice" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                   <h2>What would you like?</h2>
-                  <button onClick={() => { setType('strength'); setStep('strengthOptions'); }}>
+                  <button 
+                    className="modal-btn secondary-btn"
+                    onClick={() => { setType('strength'); setStep('strengthOptions'); }}>
                     Strength
                   </button>
-                  <button onClick={() => handleGenerate({ type: 'cardio' })}>
+                  <button 
+                    className="modal-btn secondary-btn"
+                    onClick={() => handleGenerate({ type: 'cardio' })}>
                     Cardio
                   </button>
                 </motion.div>
@@ -145,22 +158,32 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
                 <motion.div key="strength" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                   <h2>Customize your workout</h2>
 
-                  <button onClick={() => handleGenerate({ type: 'strength', muscle: 'upper', equipment: 'none' })}>
+                  <button 
+                    className="modal-btn secondary-btn"
+                    onClick={() => handleGenerate({ type: 'strength', muscle: 'upper', equipment: 'none' })}>
                     Upper Body (No Equipment)
                   </button>
 
-                  <button onClick={() => handleGenerate({ type: 'strength', muscle: 'lower', equipment: 'none' })}>
+                  <button 
+                    className="modal-btn secondary-btn"
+                    onClick={() => handleGenerate({ type: 'strength', muscle: 'lower', equipment: 'none' })}>
                     Lower Body (No Equipment)
                   </button>
 
-                  <button onClick={() => handleGenerate({ type: 'strength', muscle: 'core', equipment: 'none' })}>
+                  <button 
+                    className="modal-btn secondary-btn"
+                    onClick={() => handleGenerate({ type: 'strength', muscle: 'core', equipment: 'none' })}>
                     Core
                   </button>
 
-                  <button onClick={() => handleGenerate({ type: 'strength', muscle: 'full' })}>
+                  <button 
+                    className="modal-btn secondary-btn"
+                    onClick={() => handleGenerate({ type: 'strength', muscle: 'full' })}>
                     Full Body
                   </button>
-                  <button onClick={() => handleGenerate({ type: 'cardio' }, 'cardio')}>
+                  <button 
+                    className="modal-btn secondary-btn"
+                    onClick={() => handleGenerate({ type: 'cardio' }, 'cardio')}>
                     Cardio
                   </button>
                 </motion.div>
@@ -172,7 +195,7 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
                   <h2>Your Workout</h2>
 
                   {type === 'strength' && Array.isArray(result) && result.map((ex, i) => (
-                    <div key={i}>
+                    <div key={i} className="result-item">
                       {ex.name} — {ex.sets} x {ex.reps}
                     </div>
                   ))}
@@ -185,15 +208,19 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
                   )}
 
 
-                  <button onClick={() => {
-                    localStorage.setItem('generatedWorkout', JSON.stringify(result));
-                    navigate('/log');
-                   
-                  }}>
-                    Start This Workout
-                  </button>
+                  <button 
+                    className="modal-btn primary-btn"
+                    onClick={() => {
+                      localStorage.setItem('generatedWorkout', JSON.stringify(result));
+                      navigate('/log');
+                     
+                    }}>
+                      Start This Workout
+                    </button>
 
-                  <button onClick={() => setStep('choice')}>
+                  <button 
+                    className="modal-btn ghost-btn"
+                    onClick={() => setStep('choice')}>
                     Try Another
                   </button>
                 </motion.div>
@@ -201,7 +228,9 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
 
             </AnimatePresence>
 
-            <button onClick={onClose}>Close</button>
+            <button 
+              className="modal-btn ghost-btn" 
+              onClick={onClose}>Close</button>
           </motion.div>
         </div>
       )}

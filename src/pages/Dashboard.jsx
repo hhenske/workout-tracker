@@ -172,10 +172,13 @@ export default function Dashboard() {
 
       </div>
 
-      <button onClick={() => setShowGenerator(true)}>
-        Generate Workout
-      </button>
-
+      <div className="dashboard-week___action">
+        <button 
+          className="modal-btn generate-btn" 
+          onClick={() => setShowGenerator(true)}>
+          Generate a Workout
+        </button>
+      </div>
       
 
       <WorkoutGeneratorModal
