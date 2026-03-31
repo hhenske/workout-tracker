@@ -1,20 +1,53 @@
-# Workout Tracker App
+# 🏋️ Workout Tracker App
 
-A professional-grade workout tracking application built with React, Vite, and Supabase. Users can create workouts, track exercises, monitor progress, and receive exercise recommendations based on muscle groups and exercise type.
+A full-featured workout tracking application built with **React, Vite, and Supabase**.
+Users can log workouts, track strength and cardio sessions, view progress analytics, and generate guided workouts.
 
-Live App: https://hhenske.github.io/workout-tracker
+🔗 **Live App:** https://hhenske.github.io/workout-tracker
 
 ---
 
-# Tech Stack
+# 🚀 Key Features
 
-Frontend
+* 📊 **Dashboard Analytics**
+
+  * Weekly workout summary
+  * Strength volume tracking
+  * Cardio session tracking
+  * Workout streak tracking
+
+* 🏋️ **Workout Logging**
+
+  * Add exercises with sets, reps, and weight
+  * Support for both **strength and cardio workouts**
+  * Dynamic form behavior based on workout type
+
+* ⚡ **Workout Generator**
+
+  * Generate workouts by type (strength/cardio)
+  * Guided options (e.g., upper body, no equipment)
+  * Prefills workout form for seamless logging
+
+* 🔎 **Exercise Autocomplete**
+
+  * Suggests exercises as users type
+  * Improves speed and consistency of logging
+
+* 📱 **Mobile-First Design**
+
+  * Responsive layout optimized for mobile use
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
 
 * React (Vite)
 * JavaScript (ES6+)
-* CSS (mobile-first)
+* CSS (custom, mobile-first)
 
-Backend / Services
+## Backend / Services
 
 * Supabase
 
@@ -22,17 +55,17 @@ Backend / Services
   * PostgreSQL database
   * REST API
 
-Deployment
+## Deployment
 
 * GitHub Pages
 
-Version Control
+## Version Control
 
 * Git + GitHub
 
 ---
 
-# Architecture Overview
+# 🧱 Architecture Overview
 
 ```
                 ┌────────────────────────┐
@@ -40,67 +73,41 @@ Version Control
                 │   (Static Hosting)     │
                 └────────────┬───────────┘
                              │
-                             │ serves
                              ▼
                 ┌────────────────────────┐
                 │     React Frontend     │
                 │       (Vite App)       │
                 └────────────┬───────────┘
                              │
-                             │ Supabase Client
                              ▼
                 ┌─────────────────────────┐
                 │        Supabase         │
                 │                         │
-                │  ┌─────────────────┐    │
-                │  │ Authentication  │    │
-                │  └─────────────────┘    │
-                │                         │
-                │  ┌─────────────────┐    │
-                │  │ PostgreSQL DB   │    │
-                │  └─────────────────┘    │
+                │  Authentication         │
+                │  PostgreSQL Database    │
                 │                         │
                 └─────────────────────────┘
 ```
 
 ---
 
-# Application Architecture (Frontend)
+# 📁 Frontend Structure
 
 ```
 src/
-│
 ├── components/        Reusable UI components
-│   ├── Button.jsx
-│   ├── Input.jsx
-│   ├── ExerciseCard.jsx
-│   └── WorkoutForm.jsx
-│
-├── pages/             Full application views
-│   ├── Dashboard.jsx
-│   ├── WorkoutDetail.jsx
-│   ├── Login.jsx
-│   └── Register.jsx
-│
-├── services/          External service integrations
-│   └── supabase.js
-│
-├── context/           Global state management
-│   └── AuthContext.jsx
-│
-├── hooks/             Custom React hooks
-│   └── useWorkouts.js
-│
-├── utils/             Utility functions
-│   └── helpers.js
-│
+├── pages/             Application views
+├── services/          API + Supabase logic
+├── context/           Global state (Auth)
+├── hooks/             Custom hooks
+├── utils/             Helper functions
 ├── App.jsx
 └── main.jsx
 ```
 
 ---
 
-# Database Architecture
+# 🗄 Database Schema
 
 ```
 users
@@ -113,67 +120,78 @@ workouts
   user_id (uuid)
   name
   date
+  duration
   created_at
+  type   (cardio / strength)
 
 exercises
   id (uuid)
   name
   muscle_group
-  type
+  type   (cardio / strength)
 
-workout_exercises
+sets
   id (uuid)
   workout_id (uuid)
   exercise_id (uuid)
-  sets
-  reps
   weight
+  reps
+  set_number
 ```
 
 ---
 
-# Data Flow
+# 🔄 Data Flow
 
-User Action → React Component → Supabase Client → Database → Supabase Response → React State Update → UI Update
-
----
-
-# Features
-
-Current
-
-* Professional project structure
-* GitHub Pages deployment
-* Mobile-first responsive design
-
-Planned
-
-* User authentication
-* Create workouts
-* Add exercises to workouts
-* Track sets, reps, and weight
-* Workout history tracking
-* Exercise recommendation engine
-* Progress tracking
-
-Future Enhancements
-
-* Charts and analytics
-* Offline support
-* Exercise filtering by muscle group
-* Personal records tracking
+```
+User Action
+  ↓
+React Component
+  ↓
+Supabase Client
+  ↓
+Database
+  ↓
+Response
+  ↓
+React State Update
+  ↓
+UI Update
+```
 
 ---
 
-# Local Development
+# 📸 Screenshots
 
-Install dependencies
+> Add screenshots to visually showcase your app. Create a `/screenshots` folder in your repo and place images there.
+
+### Dashboard
+
+![Dashboard](./screenshots/dashboard.png)
+
+### Workout Generator
+
+![Workout Generator](./screenshots/generator.png)
+
+### Log Workout
+
+![Log Workout](./screenshots/log-workout.png)
+
+### Mobile View
+
+![Mobile View](./screenshots/mobile.png)
+
+---
+
+# ⚙️ Local Development
+
+Install dependencies:
 
 ```
 npm install
 ```
 
-Run development server
+Run development server:
 
 ```
 npm run dev
@@ -181,15 +199,15 @@ npm run dev
 
 ---
 
-# Deployment
+# 🚀 Deployment
 
-Build project
+Build project:
 
 ```
 npm run build
 ```
 
-Deploy to GitHub Pages
+Deploy to GitHub Pages:
 
 ```
 npm run deploy
@@ -197,9 +215,9 @@ npm run deploy
 
 ---
 
-# Environment Variables
+# 🔐 Environment Variables
 
-Create .env file
+Create a `.env` file:
 
 ```
 VITE_SUPABASE_URL=your_url
@@ -208,24 +226,23 @@ VITE_SUPABASE_ANON_KEY=your_key
 
 ---
 
-# Professional Goals of This Project
+# 🎯 What This Project Demonstrates
 
-This project demonstrates:
-
-* Professional React architecture
-* Real-world backend integration
-* Authentication systems
-* Database design
-* Clean, maintainable code structure
+* Full-stack application architecture
+* Real-world database design (PostgreSQL)
+* API integration with Supabase
+* Dynamic UI based on user input
+* State management in React
+* Responsive, mobile-first design
 * Production deployment workflow
 
 ---
 
-# Author
+# 👩‍💻 Author
 
-Holly Henske
-
+**Holly Henske**
 Frontend Developer
 React | Supabase | JavaScript | CSS
 
-GitHub: https://github.com/hhenske
+🔗 GitHub: https://github.com/hhenske
+
