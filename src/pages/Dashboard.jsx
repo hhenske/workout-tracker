@@ -132,7 +132,7 @@ export default function Dashboard() {
     return <div className="page">Loading dashboard...</div>
     }
 
-  console.log(workouts);
+  // console.log(workouts);
 
   return (
     <div className="dashboard">
