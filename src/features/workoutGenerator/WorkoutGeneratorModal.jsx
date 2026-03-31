@@ -211,7 +211,11 @@ export default function WorkoutGeneratorModal({ isOpen, onClose, workouts }) {
                   <button 
                     className="modal-btn primary-btn"
                     onClick={() => {
-                      localStorage.setItem('generatedWorkout', JSON.stringify(result));
+                      localStorage.setItem('generatedWorkout', JSON.stringify({
+                        type,
+                        date: new Date().toISOString().split('T')[0],
+                        data: result
+                      }));
                       navigate('/log');
                      
                     }}>

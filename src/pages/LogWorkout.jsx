@@ -18,7 +18,7 @@ export default function LogWorkout() {
   const [exerciseInput, setExerciseInput] = useState('')
   const [exerciseList, setExerciseList] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
-  const [Exercises, setExercises] = useState([]);
+  
 
   function addExercise() {
     setWorkout({
@@ -47,7 +47,7 @@ export default function LogWorkout() {
   function addSet(exerciseIndex) {
     const updated = [...workout.exercises];
 
-    updated[index].sets.push({
+    updated[exerciseIndex].sets.push({
       weight: '',
       reps: ''
     });
@@ -82,7 +82,10 @@ export default function LogWorkout() {
   async function handleSaveWorkout(e) {
     e.preventDefault();
 
-    const workoutType = detectWorkoutType(exercises);
+    const workoutType =
+      workout.exercises.some(ex => ex.type === 'cardio')
+        ? 'cardio'
+        : 'strength';
 
     try {
 
@@ -161,8 +164,8 @@ export default function LogWorkout() {
           .insert({
             workout_id: workoutId,
             exercise_id: exerciseId,
-            weight: Number(set.weight),
-            reps: Number(set.reps),
+            reps: set.reps ? Number(set.reps) : 0,
+            weight: set.weight ? Number(set.weight) : 0,
             set_number: i + 1
           });
 
@@ -237,23 +240,52 @@ export default function LogWorkout() {
 
     useEffect(() => {
       const saved = localStorage.getItem('generatedWorkout');
-
       if (!saved) return;
 
       const parsed = JSON.parse(saved);
 
-      // ✅ Set date if present
-      if (parsed.date) {
-        setWorkout(prev => ({
-          ...prev,
-          date: parsed.date
+      let formattedExercises = [];
+
+      // ========================
+      // 🏋️ Strength workout
+      // ========================
+      if (parsed.type === 'strength' && Array.isArray(parsed.data)) {
+        formattedExercises = parsed.data.map(ex => ({
+          name: ex.name,
+          type: 'strength',
+          sets: Array.from({ length: ex.sets }).map(() => ({
+            weight: '',
+            reps: ex.reps || ''
+          }))
         }));
       }
 
-      // ✅ Set exercises
-      if (parsed.result) {
-        setExercises(parsed.result);
+      // ========================
+      // 🏃 Cardio workout
+      // ========================
+      if (parsed.type === 'cardio' && parsed.data) {
+        formattedExercises = [{
+          name: parsed.data.activity || '',
+          type: 'cardio',
+          sets: [{
+            weight: '',
+            reps: parsed.data.description || ''
+          }]
+        }];
       }
+
+      // ========================
+      // ✅ Set workout state
+      // ========================
+      setWorkout(prev => ({
+        ...prev,
+        date: parsed.date || prev.date,
+        exercises: formattedExercises,
+        notes:
+          parsed.type === 'cardio'
+            ? parsed.data?.description || ''
+            : prev.notes
+      }));
 
       localStorage.removeItem('generatedWorkout');
 
