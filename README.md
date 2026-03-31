@@ -172,19 +172,19 @@ UI Update
 ### Workout Generator
 
 <p align="center">
-  <img src="./screenshots/generator.png" width="700" />
+  <img src="./screenshots/generator.png" width="350" />
 </p>
 
 ### Log Workout
 
 <p align="center">
-  <img src="./screenshots/log-workout.png" width="700" />
+  <img src="./screenshots/log-workout.png" width="350" />
 </p>
 
 ### Mobile View
 
 <p align="center">
-  <img src="./screenshots/mobile.png" width="400" />
+  <img src="./screenshots/mobile.png" width="350" />
 </p>
 
 ---
