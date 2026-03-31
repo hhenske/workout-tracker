@@ -163,23 +163,29 @@ UI Update
 
 # 📸 Screenshots
 
-> Add screenshots to visually showcase your app. Create a `/screenshots` folder in your repo and place images there.
-
 ### Dashboard
 
-![Dashboard](./screenshots/dashboard.png)
+<p align="center">
+  <img src="./screenshots/dashboard.png" width="700" />
+</p>
 
 ### Workout Generator
 
-![Workout Generator](./screenshots/generator.png)
+<p align="center">
+  <img src="./screenshots/generator.png" width="700" />
+</p>
 
 ### Log Workout
 
-![Log Workout](./screenshots/log-workout.png)
+<p align="center">
+  <img src="./screenshots/log-workout.png" width="700" />
+</p>
 
 ### Mobile View
 
-![Mobile View](./screenshots/mobile.png)
+<p align="center">
+  <img src="./screenshots/mobile.png" width="400" />
+</p>
 
 ---
 
