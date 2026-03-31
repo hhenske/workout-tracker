@@ -12,6 +12,7 @@
 
 .card {
   background: var(--color-surface);
+  width: 100%;
   padding: var(--space-5);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
@@ -22,9 +23,15 @@
   gap: var(--space-3);
 }
 
+.card > * {
+  width: 100%;
+}
+
 input,
 textarea {
   padding: var(--space-3);
+  width: 100%;
+  box-sizing: border-box;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
   background: var(--color-surface-2);
@@ -149,6 +156,35 @@ textarea {
   border-color: var(--color-primary);
 }
 
+/* ============================================
+   EXERCISE ROW (INPUT + RADIO INLINE)
+   ============================================ */
+
+.exercise-row {
+  display: flex;
+  gap: var(--space-3);
+  flex-direction: column;
+}
+
+/* Input grows */
+.exercise-row .autocomplete {
+  width: 100%;
+}
+
+/* Radios stay compact */
+.exercise-type {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.cardio-hint {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  background: var(--color-surface-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+}
+
 
 @media (min-width: 640px) {
   .form-actions {
@@ -158,6 +194,19 @@ textarea {
 
   .primary-btn {
     margin-top: 0;
+  }
+  
+  .exercise-row {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .exercise-row .autocomplete {
+    flex: 1;                  /* input expands */
+  }
+
+  .exercise-type {
+    flex-shrink: 0;             /* radios stay compact */
   }
 }
 

@@ -238,13 +238,25 @@ export default function LogWorkout() {
     useEffect(() => {
       const saved = localStorage.getItem('generatedWorkout');
 
-      if (saved) {
-        const parsed = JSON.parse(saved);
+      if (!saved) return;
 
-        setExercises(parsed); // or however you store them
+      const parsed = JSON.parse(saved);
 
-        localStorage.removeItem('generatedWorkout');
+      // ✅ Set date if present
+      if (parsed.date) {
+        setWorkout(prev => ({
+          ...prev,
+          date: parsed.date
+        }));
       }
+
+      // ✅ Set exercises
+      if (parsed.result) {
+        setExercises(parsed.result);
+      }
+
+      localStorage.removeItem('generatedWorkout');
+
     }, []);
 
 
@@ -294,21 +306,39 @@ export default function LogWorkout() {
 
           <section key={exerciseIndex} className="card">
 
-            <div className="autocomplete">
+            <div className="exercise-row">
 
-              {/* Exercise Name Input */}
-              <input
-                type="text"
-                placeholder="Exercise name"
-                value={exercise.name}
-                onChange={(e) => {
-                  handleExerciseChange(exerciseIndex, 'name', e.target.value);
-                  setExerciseInput(e.target.value);
-                  setShowSuggestions(true);
-                }}
-              />
+              <div className="autocomplete">
+                <input
+                  type="text"
+                  placeholder="Exercise name"
+                  value={exercise.name}
+                  onChange={(e) => {
+                    handleExerciseChange(exerciseIndex, 'name', e.target.value);
+                    setExerciseInput(e.target.value);
+                    setShowSuggestions(true);
+                  }}
+                />
 
-              {/* ✅ Radio Buttons (FIXED) */}
+                {showSuggestions && exercise.name && filteredExercises.length > 0 && (
+                  <div className="autocomplete-list">
+                    {filteredExercises.slice(0, 5).map(ex => (
+                      <div
+                        key={ex.id}
+                        className="autocomplete-item"
+                        onClick={() => {
+                          handleExerciseChange(exerciseIndex, 'name', ex.name);
+                          setExerciseInput(ex.name);
+                          setShowSuggestions(false);
+                        }}
+                      >
+                        {ex.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <div className="exercise-type">
                 <label>
                   <input
@@ -337,6 +367,7 @@ export default function LogWorkout() {
                 </label>
               </div>
 
+            </div>
               {/* ✅ Autocomplete Dropdown (FIXED) */}
               {showSuggestions && exercise.name && filteredExercises.length > 0 && (
                 <div className="autocomplete-list">
@@ -356,43 +387,54 @@ export default function LogWorkout() {
                 </div>
               )}
 
-            </div>
+           
 
             {/* Sets */}
-            {exercise.sets.map((set, setIndex) => (
-              <div key={setIndex} className="set-row">
+            {/* =========================
+   CONDITIONAL UI
+========================= */}
 
-                <input
-                  type="number"
-                  placeholder="Weight"
-                  value={set.weight}
-                  onChange={(e) =>
-                    updateSet(
-                      exerciseIndex,
-                      setIndex,
-                      'weight',
-                      e.target.value
-                    )
-                  }
-                />
+    {exercise.type === 'strength' && (
+      <>
+        {exercise.sets.map((set, setIndex) => (
+          <div key={setIndex} className="set-row">
 
-                <input
-                  type="number"
-                  placeholder="Reps"
-                  value={set.reps}
-                  onChange={(e) =>
-                    updateSet(
-                      exerciseIndex,
-                      setIndex,
-                      'reps',
-                      e.target.value
-                    )
-                  }
-                />
+            <input
+              type="number"
+              placeholder="Weight"
+              value={set.weight}
+              onChange={(e) =>
+                updateSet(exerciseIndex, setIndex, 'weight', e.target.value)
+              }
+            />
 
-              </div>
-            ))}
+            <input
+              type="number"
+              placeholder="Reps"
+              value={set.reps}
+              onChange={(e) =>
+                updateSet(exerciseIndex, setIndex, 'reps', e.target.value)
+              }
+            />
 
+          </div>
+        ))}
+
+        {exercise.type === 'cardio' && (
+          <p className="cardio-hint">
+            Describe your activity in the notes above (e.g. "Ran 2 miles, moderate pace")
+          </p>
+        )}
+
+    <button
+      type="button"
+      className="secondary-btn"
+      onClick={() => addSet(exerciseIndex)}
+    >
+      + Add Set
+    </button>
+  </>
+)}
             <button
               type="button"
               className="secondary-btn"
