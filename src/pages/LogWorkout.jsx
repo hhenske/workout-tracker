@@ -159,18 +159,19 @@ export default function LogWorkout() {
 
         const set = exercise.sets[i];
 
+        const isCardio = exercise.type === 'cardio';
+
         const { error } = await supabase
           .from('sets')
           .insert({
             workout_id: workoutId,
             exercise_id: exerciseId,
-            reps: set.reps ? Number(set.reps) : 0,
-            weight: set.weight ? Number(set.weight) : 0,
+            weight: isCardio ? 0 : Number(set.weight || 0),
+            reps: isCardio ? 0 : Number(set.reps || 0),
             set_number: i + 1
           });
 
         if (error) throw error;
-
       }
 
     }
@@ -320,6 +321,7 @@ export default function LogWorkout() {
             onChange={(e) =>
               setWorkout({ ...workout, duration: e.target.value })
             }
+            required
           />
 
           <label className="label-caps">Notes</label>

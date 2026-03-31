@@ -79,8 +79,8 @@ const { data: sets, error: setsError } = await supabase
   .select(`
     weight,
     reps,
-    exercises(name),
-    workouts!inner(user_id)
+    exercises(name, type),
+    workouts!inner(user_id, date)
   `)
   .eq('workouts.user_id', user.id)
 
@@ -128,11 +128,30 @@ for (const name in exerciseCount) {
   }
 }
 
+
+  // -------------------------
+// 7. Weekly summary
+// -------------------------
+
+// ✅ DEFINE FIRST (global to this section)
+const startOfWeek = new Date();
+startOfWeek.setHours(0, 0, 0, 0);
+
+// move to Sunday
+startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+
+// ✅ counters
+let weeklyWorkouts = 0;
+let weeklyVolume = 0;
+let weeklyMinutes = 0;
+let strengthVolume = 0;
+let cardioSessions = 0;
+
   // -------------------------
   // 6. Weekly data
   // -------------------------
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
+ 
   const weeklyData = days.map(day => ({
     day,
     hours: 0
@@ -140,45 +159,55 @@ for (const name in exerciseCount) {
 
   workouts.forEach(workout => {
 
-    const date = new Date(workout.date)
-    const dayIndex = date.getDay()
-
+    
+    const workoutDate = new Date(workout.date)
+    const dayIndex = workoutDate.getDay()
+    
     const minutes = workout.duration || 0
 
     weeklyData[dayIndex].hours += minutes / 60
+
+    
   })
 
-  // -------------------------
-// 7. Weekly summary
+
 // -------------------------
-
-const startOfWeek = new Date()
-startOfWeek.setHours(0, 0, 0, 0)
-
-// move to Sunday
-startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay())
-
-let weeklyWorkouts = 0
-let weeklyVolume = 0
-let weeklyMinutes = 0
-
+// workouts loop
+// -------------------------
 workouts.forEach(workout => {
-  const workoutDate = new Date(workout.date)
+
+  const workoutDate = new Date(workout.date);
 
   if (workoutDate >= startOfWeek) {
-    weeklyWorkouts++
-    weeklyMinutes += workout.duration || 0
-  }
-})
+    weeklyWorkouts++;
+    weeklyMinutes += workout.duration || 0;
 
-  sets?.forEach(set => {
-    const workoutDate = new Date(set.workouts?.date)
-
-    if (workoutDate >= startOfWeek) {
-      weeklyVolume += set.weight * set.reps
+    if (workout.type === 'cardio') {
+      cardioSessions++;
     }
-})
+  }
 
+});
+
+
+// -------------------------
+// sets loop
+// -------------------------
+sets?.forEach(set => {
+
+  const workoutDate = new Date(set.workouts?.date);
+
+  if (workoutDate >= startOfWeek) {
+    const volume = (set.weight || 0) * (set.reps || 0);
+
+    weeklyVolume += volume;
+
+    if (set.exercises?.type === 'strength') {
+      strengthVolume += volume;
+    }
+  }
+
+});
 // ---------- Calculate workout streak ----------
 
 let streak = 0;
@@ -225,7 +254,9 @@ if (workouts && workouts.length > 0) {
     weeklySummary: {
       workouts: weeklyWorkouts,
       volume: weeklyVolume,
-      duration: weeklyMinutes
+      duration: weeklyMinutes,
+      strengthVolume,
+      cardioSessions
     }
   }
 

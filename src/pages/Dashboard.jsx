@@ -170,6 +170,9 @@ export default function Dashboard() {
           <strong>{formatDuration(stats?.weeklySummary?.minutes ?? 0)}</strong> training
         </span>
 
+        <p>💪 Strength Volume: {stats.weeklySummary.strengthVolume}</p>
+        <p>🏃 Cardio Sessions: {stats.weeklySummary.cardioSessions}</p>
+
       </div>
 
       <div className="dashboard-week___action">
@@ -268,7 +271,7 @@ export default function Dashboard() {
           </div>
         </section>
 
-        <div className="stat-card stat-card--secondary">
+        <div className="stat-card stat-card--secondary stat-card--streak">
 
         <span className="stat-card__label label-caps">
           Current Streak
